@@ -105,21 +105,70 @@
   (lambda (x) (average x (f x))))
 
 (define (product x a)
-  (define (iter v a) 
+  (define (iter v a)
     (if (= a 0)
         v
         (iter (* v x) (- a 1))))
   (iter 1 a))
 
+(define (log2 x)
+  (/ (log x) (log 2)))
 
 (define (root x n)
-  (fixed-point ((repeated average-dump 2) (lambda (y) (/ x (product y (- n 1))))) 1.0))
+  (fixed-point ((repeated average-dump (ceiling (log2 n)))
+                (lambda (y) (/ x (product y (- n 1))))) 1.0))
 
-;(print (root 3 3))
-;(print (root 3 4))
-(print (root 5 5))
-;(print (root 3 6))
-;(print (root 3 7))
-;(print (root 3 10))
-;(print (root 3 16))
+(print "2^(1/2)")
+(print (root 2 2))
+(print "2^(1/10)")
+(print (root 2 10))
+(print "2^(1/100)")
+(print (root 2 100))
 
+
+
+;; Exercise 1.46
+(print "\nExercise 1.46")
+
+
+(define (iterative-imporove enough? improve)
+(lambda (guess)
+  (define  (loop guess)
+    (if (enough? guess)
+        guess
+        (loop (improve guess))))
+  (loop guess)))
+
+
+(define (sqrt x)
+  (define (average x y) (/ (+ x y) 2))
+  (define (solve)
+    (iterative-imporove
+      (lambda (guess)
+        (< (abs (- (square guess) x))
+           0.00001))
+      (lambda (guess)
+        (average guess (/ x guess)))))
+  ((solve) 1.0))
+
+(print "\nExercise 1.46 sqrt")
+(print "sqrt 4")
+(print (sqrt 4))
+(print "sqrt 2")
+(print (sqrt 2))
+
+
+(define (fixed-point f first-guess)
+  (define (solve)
+    (iterative-imporove
+      (lambda (guess)
+        (< (abs (- (f guess) guess))
+           0.00001))
+      (lambda (guess)
+        (f guess))))
+  ((solve) first-guess))
+
+
+(print "\nExercise 1.46 sqrt")
+(print "(fixed-point cos 1.0)")
+(print (fixed-point cos 1.0))
