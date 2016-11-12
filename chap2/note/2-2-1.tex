@@ -1,0 +1,1234 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{2-2-1}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Chapter 2}\label{chapter-2}
+
+\subsection{2 Building Abstractions with
+Data}\label{building-abstractions-with-data}
+
+In this chapter we are going to look at more complex data.
+
+(All the procedures in chap.1 operate on simple numerical data, and
+simple data.)
+
+\begin{itemize}
+\item
+  \textbf{Focus in Chapter 1} : building abstractions by combining
+  procedures to form compound procedures\\
+  (\textbf{手続き}を組み合わせることで抽象化すること.)
+\item
+  \textbf{Focus in Chapter 2} : the means it provides for building
+  abstractions by combining data object to form compound data
+  (データオブジェクトを組み合わせて合成\textbf{データ}を与える手段)
+\end{itemize}
+
+    \subsection{2.1 Introduction to Data
+Abstraction}\label{introduction-to-data-abstraction}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Data abstraction} : methodology that enables us to isolate how
+  a compound data object is used from the details of how it is
+  constructed from more primitive data objects.
+  (合成データオブジェクトがどのようにして基本的なデータオブジェクトから構成されているかを隔離する技法)
+\end{itemize}
+
+    \subsection{2.1.1 Example: Arithmetic Operations for Rational
+Numbers}\label{example-arithmetic-operations-for-rational-numbers}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{n}{n} \PY{n}{d}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons} \PY{n}{n} \PY{n}{d}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; returns the rational number d/n}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; returns the numerator of the rational number \PYZlt{}x\PYZgt{} =\PYZgt{} d}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; returns the denominator of the rational number \PYZlt{}x\PYZgt{} =\PYZgt{} n}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{n}{x}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{/}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{y} \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{z} \PY{p}{(}\PY{n+nb}{cons} \PY{n}{x} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{car} \PY{n}{z}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{z}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{z}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{n}{z}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+'(1 . 2)'(3 . 4)32
+    \end{Verbatim}
+
+    \[
+\frac{n_1}{d_1} + \frac{n_2}{d_2} = \frac{n_1d_2+n_2d_1}{d_1d_2}\\
+\] \[
+\frac{n_1}{d_1} - \frac{n_2}{d_2} = \frac{n_1d_2-n_2d_1}{d_1d_2}\\ 
+\] \[
+\frac{n_1}{d_1} \cdot \frac{n_2}{d_2} = \frac{n_1dn_2}{d_1d_2}\\ 
+\] \[
+\frac{n_1/d_1}{n_2/d_2} = \frac{n_1d_2}{d_1n_2}\\
+\] \[
+\frac{n_1}{d_1} = \frac{n_2}{d_2} \quad \text{if and only if}\quad n_1d_2 = n_2d_1
+\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{add\PYZhy{}rat} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+          \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{y}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{sub\PYZhy{}rat} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+         \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{y}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{mul\PYZhy{}rat} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+          \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{numer} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{div\PYZhy{}rat} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+          \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{numer} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{equal\PYZhy{}rat?} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{=} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{numer} \PY{n}{y}\PY{p}{)} \PY{p}{(}\PY{n}{denom} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{p}{(}\PY{k}{define} \PY{n}{one\PYZhy{}half} \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{n}{one\PYZhy{}half}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{one\PYZhy{}third} \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{l+m+mi}{1} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{add\PYZhy{}rat} \PY{n}{one\PYZhy{}half} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{sub\PYZhy{}rat} \PY{n}{one\PYZhy{}half} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{mul\PYZhy{}rat} \PY{n}{one\PYZhy{}half} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{div\PYZhy{}rat} \PY{n}{one\PYZhy{}half} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{add\PYZhy{}rat} \PY{n}{one\PYZhy{}third} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        \PY{c+c1}{;\PYZca{}\PYZca{}\PYZca{} our rational number implimentation does not }
+        \PY{c+c1}{;    reduce rational numbers to lowerst terems}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+1/2
+5/6
+1/6
+1/6
+3/2
+6/9
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{gcd} \PY{n}{a} \PY{n}{b}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{=} \PY{n}{b} \PY{l+m+mi}{0}\PY{p}{)}
+              \PY{n}{a}
+              \PY{p}{(}\PY{n+nb}{gcd} \PY{n}{b} \PY{p}{(}\PY{n+nb}{remainder} \PY{n}{a} \PY{n}{b}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{n}{n} \PY{n}{d}\PY{p}{)}
+          \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n}{g} \PY{p}{(}\PY{n+nb}{gcd} \PY{n}{n} \PY{n}{d}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{/} \PY{n}{n} \PY{n}{g}\PY{p}{)} \PY{p}{(}\PY{n+nb}{/} \PY{n}{d} \PY{n}{g}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{p}{(}\PY{n}{print\PYZhy{}rat} \PY{p}{(}\PY{n}{add\PYZhy{}rat} \PY{n}{one\PYZhy{}third} \PY{n}{one\PYZhy{}third}\PY{p}{)}\PY{p}{)}
+        \PY{c+c1}{;\PYZca{}\PYZca{}\PYZca{} get rational number as desired!!}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+2/3
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.1}\label{exercise-2.1}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{x}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{\PYZgt{}} \PY{l+m+mi}{0} \PY{n}{x}\PY{p}{)}
+              \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{x}\PY{p}{)}
+              \PY{n}{x}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}rat} \PY{n}{n} \PY{n}{d}\PY{p}{)}
+          \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n}{g}  \PY{p}{(}\PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{gcd} \PY{n}{n} \PY{n}{d}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{\PYZlt{}} \PY{p}{(}\PY{n+nb}{*} \PY{n}{n} \PY{n}{d}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{n}\PY{p}{)} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{g}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{d}\PY{p}{)} \PY{n}{g}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{n}\PY{p}{)}  \PY{n}{g}\PY{p}{)} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{d}\PY{p}{)} \PY{n}{g}\PY{p}{)}\PY{p}{)}
+             \PY{p}{)}
+           \PY{p}{)}
+          \PY{p}{)}
+\end{Verbatim}
+
+    \subsection{2.1.2 Abstraction Barrier}\label{abstraction-barrier}
+
+Simple idea has many advantages.
+
+\begin{itemize}
+\tightlist
+\item
+  One advantage is that it makes programs much easier to maintainand to
+  modify.\\
+  (保守性保つことや変更を加える事がより容易になる.)
+\end{itemize}
+
+    \subsubsection{Exercise 2.2}\label{exercise-2.2}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{;; define Point}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{n}{px} \PY{n}{py}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{cons} \PY{n}{px} \PY{n}{py}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{n}{p}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{car} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{n}{p}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+        
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{p}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{(}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{,}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{n}{p}\PY{p}{)}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{display} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}\PY{p}{)}
+        
+        
+        
+        \PY{c+c1}{;; define Line}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}segment} \PY{n}{p1} \PY{n}{p2}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{cons} \PY{n}{p1} \PY{n}{p2}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{start\PYZhy{}segment} \PY{n}{line}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{car} \PY{n}{line}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{end\PYZhy{}segment} \PY{n}{line}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{line}\PY{p}{)}\PY{p}{)}
+        
+        
+        
+        \PY{c+c1}{;; get mid\PYZhy{}point}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{midpoint\PYZhy{}segment} \PY{n}{line}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n}{start\PYZhy{}segment} \PY{n}{line}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n}{end\PYZhy{}segment} \PY{n}{line}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{l+m+mf}{2.0}\PY{p}{)}
+                \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n}{start\PYZhy{}segment} \PY{n}{line}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n}{end\PYZhy{}segment} \PY{n}{line}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{l+m+mf}{2.0}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{p}{(}\PY{k}{define} \PY{n}{a} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{l+m+mi}{0} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{a}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{b} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{l+m+mi}{1} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{b}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{c} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{l+m+mi}{\PYZhy{}1} \PY{l+m+mi}{\PYZhy{}1}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{c}\PY{p}{)}
+        
+        
+        \PY{p}{(}\PY{k}{define} \PY{n}{a2b} \PY{p}{(}\PY{n}{make\PYZhy{}segment} \PY{n}{a} \PY{n}{b}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{p}{(}\PY{n}{start\PYZhy{}segment} \PY{n}{a2b}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{p}{(}\PY{n}{end\PYZhy{}segment} \PY{n}{a2b}\PY{p}{)}\PY{p}{)}
+        \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{p}{(}\PY{n}{midpoint\PYZhy{}segment} \PY{n}{a2b}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+(0,0)
+
+(1,1)
+
+(-1,-1)
+
+(0,0)
+
+(1,1)
+
+(0.5,0.5)
+
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.3}\label{exercise-2.3}
+
+x軸,y軸に平行な場合
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\KeywordTok{a_4}                      \NormalTok{a_3}
+\KeywordTok{+-------------------------+}
+\KeywordTok{|}                         \KeywordTok{|}
+\KeywordTok{|}                         \KeywordTok{|}
+\KeywordTok{|}        \KeywordTok{THIS} \NormalTok{IS          }\KeywordTok{|}
+\KeywordTok{|}       \KeywordTok{RECTANGLE}         \KeywordTok{|}
+\KeywordTok{|}                         \KeywordTok{|}
+\KeywordTok{|}                         \KeywordTok{|}
+\KeywordTok{+-------------------------+}
+\KeywordTok{a_1}                       \NormalTok{a_2}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{abs} \PY{n}{x}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{\PYZgt{}} \PY{l+m+mi}{0} \PY{n}{x}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{x}\PY{p}{)}
+               \PY{n}{x}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{rectangle} \PY{n}{a1} \PY{n}{a3}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{cons} \PY{n}{a1} \PY{n}{a3}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{get\PYZhy{}perimeter} \PY{n}{rectangle}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{*} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{p}{(}\PY{n+nb}{car} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{p}{(}\PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{p}{(}\PY{n+nb}{car} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{get\PYZhy{}area} \PY{n}{rectangle}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{x\PYZhy{}point} \PY{p}{(}\PY{n+nb}{car} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+              \PY{p}{(}\PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{y\PYZhy{}point} \PY{p}{(}\PY{n+nb}{car} \PY{n}{rectangle}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{p}{(}\PY{k}{define} \PY{n}{a\PYZus{}1} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{l+m+mi}{0} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{a\PYZus{}1}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{a\PYZus{}3} \PY{p}{(}\PY{n}{make\PYZhy{}point} \PY{l+m+mi}{3} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n}{print\PYZhy{}point} \PY{n}{a\PYZus{}3}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{rec} \PY{p}{(}\PY{n}{rectangle} \PY{n}{a\PYZus{}1} \PY{n}{a\PYZus{}3}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}perimeter} \PY{n}{rec}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}area} \PY{n}{rec}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+(0,0)
+
+(3,3)
+129
+    \end{Verbatim}
+
+    \subsection{2.1.3 What is Meant by Data?}\label{what-is-meant-by-data}
+
+    \subsubsection{Exercise 2.4}\label{exercise-2.4}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{cons} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{m}\PY{p}{)} \PY{p}{(}\PY{n}{m} \PY{n}{x} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)} 
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{car} \PY{n}{z}\PY{p}{)}
+           \PY{p}{(}\PY{n}{z} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{p} \PY{n}{q}\PY{p}{)} \PY{n}{p}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \[
+cons :=\ \lambda m. m\ x\ y \\
+car :=\ z\ \lambda\ p.\ q.\ p
+\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cons} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+         \PY{c+c1}{;}
+         \PY{c+c1}{;(cons \PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{}) =\PYZgt{} (lambda (m) (m \PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{}))}
+         \PY{c+c1}{;何か手続きを受け取って,その手続を　\PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{} に作用させる関数}
+         \PY{c+c1}{;}
+         \PY{c+c1}{;(car (cons \PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{})) =\PYZgt{} ((lambda (m) (m \PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{})) (lambda (p q) p))}
+         \PY{c+c1}{;                     =\PYZgt{} ((lambda (p q) p) \PYZdq{}x\PYZdq{} \PYZdq{}y\PYZdq{})}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}13}]:} x
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{z}\PY{p}{)}
+           \PY{p}{(}\PY{n}{z} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{p} \PY{n}{q}\PY{p}{)} \PY{n}{q}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{cons} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{x}\PY{l+s+s2}{\PYZdq{}} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}15}]:} y
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.5}\label{exercise-2.5}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{product} \PY{n}{x} \PY{n}{a}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{v} \PY{n}{a}\PY{p}{)} 
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{=} \PY{n}{a} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{n}{v}
+                 \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{*} \PY{n}{v} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{a} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{l+m+mi}{1} \PY{n}{a}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{pair\PYZhy{}cons} \PY{n}{a} \PY{n}{b}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{product} \PY{l+m+mi}{2} \PY{n}{a}\PY{p}{)}
+              \PY{p}{(}\PY{n}{product} \PY{l+m+mi}{3} \PY{n}{b}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{pair\PYZhy{}car} \PY{n}{z}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{n}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{=} \PY{p}{(}\PY{n+nb}{remainder} \PY{n}{z} \PY{p}{(}\PY{n}{product} \PY{l+m+mi}{2} \PY{n}{n}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)} 
+               \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{n} \PY{l+m+mi}{1}\PY{p}{)}
+               \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{+} \PY{n}{n} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{pair\PYZhy{}cdr} \PY{n}{z}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{n}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{=} \PY{p}{(}\PY{n+nb}{remainder} \PY{n}{z} \PY{p}{(}\PY{n}{product} \PY{l+m+mi}{3} \PY{n}{n}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)} 
+               \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{n} \PY{l+m+mi}{1}\PY{p}{)}
+               \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{+} \PY{n}{n} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.6}\label{exercise-2.6}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{p}{(}\PY{k}{define} \PY{n}{zero} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{f}\PY{p}{)} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{add1} \PY{n}{n}\PY{p}{)}
+           \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{f}\PY{p}{)} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{f} \PY{p}{(}\PY{p}{(}\PY{n}{n} \PY{n}{f}\PY{p}{)} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(add1 zero)}
+
+\KeywordTok{=>}\NormalTok{(}\KeywordTok{lambda} \NormalTok{(f) (}\KeywordTok{lambda} \NormalTok{(x) (f ((zero f) x))))}
+
+\KeywordTok{=>}\NormalTok{(}\KeywordTok{lambda} \NormalTok{(f) (}\KeywordTok{lambda} \NormalTok{(x) (f ((}\KeywordTok{lambda} \NormalTok{(f) (}\KeywordTok{lambda} \NormalTok{(x) x)) f) x)))}
+\end{Highlighting}
+\end{Shaded}
+
+\[
+zero := \lambda\ f\ x.\ x
+\\
+add1 := \lambda\ f\ x.\ f\ (n\ f\ x)
+\\
+one := \lambda\ f\ x.\ f\ x
+\\
+(add1\ zero) := \lambda\ f\ x.\ f\ (zero\ f\ x)\\
+\\
+             = \lambda\ f\ x.\ f\ (\lambda f x. f x)\\
+             = \lambda\ f\ x.\ f\ x
+\\
+two := \lambda\ f\ x.\ f\ (f\ x)
+\\
+three :== two := \lambda\ f\ x.\ f\ ( f\ (f\ x))
+\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{p}{(}\PY{k}{define} \PY{n}{one}
+           \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{f}\PY{p}{)}
+             \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)}
+               \PY{p}{(}\PY{n}{f} \PY{n}{x}\PY{p}{)}
+               \PY{p}{)}
+             \PY{p}{)}
+           \PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{two}
+           \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{f}\PY{p}{)}
+             \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)}
+               \PY{p}{(}\PY{n}{f} \PY{p}{(}\PY{n}{f} \PY{n}{x}\PY{p}{)}
+                  \PY{p}{)}
+               \PY{p}{)}
+             \PY{p}{)}
+           \PY{p}{)}
+\end{Verbatim}
+
+    \subsection{2.1.4 Extended Exercise: Interval
+Arithmetic}\label{extended-exercise-interval-arithmetic}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{add\PYZhy{}interval} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{mul\PYZhy{}interval} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n}{p1} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{n}{p2} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{n}{p3} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{n}{p4} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{min} \PY{n}{p1} \PY{n}{p2} \PY{n}{p3} \PY{n}{p4}\PY{p}{)} \PY{p}{(}\PY{n+nb}{max} \PY{n}{p1} \PY{n}{p2} \PY{n}{p3} \PY{n}{p4}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{n}{mul\PYZhy{}interval}
+            \PY{n}{x}
+            \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{/} \PY{l+m+mf}{1.0} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                           \PY{p}{(}\PY{n+nb}{/} \PY{l+m+mf}{1.0} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.7}\label{exercise-2.7}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{n}{a} \PY{n}{b}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons} \PY{n}{a} \PY{n}{b}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.8}\label{exercise-2.8}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{sub\PYZhy{}interval} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.9}\label{exercise-2.9}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{width\PYZhy{}interval} \PY{n}{x}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{l+m+mf}{2.0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \(x := (a, b)\\y := (c, d)\)
+
+\$x+y = (a+c, b+d),\textbackslash{}x-y = (a-d, b-c) \$
+
+\begin{eqnarray*}
+width(x+y) = \frac{(b+d)-(a+c)}{2}\\     
+           = \frac{(b-a)+(d-c)}{2}\\
+           = \frac{b-a}{2} + \frac{d-c}{2}\\
+           = width(x) + width(y)
+\end{eqnarray*}
+
+\textbackslash{}
+
+\begin{eqnarray*}
+width(x-y) = \frac{(b-c)-(a-d)}{2}\\     
+           = \frac{(b-a)+(d-c)}{2}\\
+           = \frac{b-a}{2} + \frac{d-c}{2}\\
+           = width(x) + width(y)
+\end{eqnarray*}
+
+    \subsubsection{Exercise 2.10}\label{exercise-2.10}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{x} \PY{n}{y}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{\PYZlt{}} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{error} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Divide by an interval that spans zero.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+               \PY{p}{(}\PY{n}{mul\PYZhy{}interval}
+                \PY{n}{x}
+                \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{/} \PY{l+m+mf}{1.0} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+                               \PY{p}{(}\PY{n+nb}{/} \PY{l+m+mf}{1.0} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{y}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.11}\label{exercise-2.11}
+
+    9パターンは,
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  {[}+ +{]} * {[}- -{]}
+\item
+  {[}+ +{]} * {[}- +{]}
+\item
+  {[}+ +{]} * {[}+ +{]}
+\item
+  {[}- +{]} * {[}- -{]}
+\item
+  {[}- +{]} * {[}- +{]}
+\item
+  {[}- +{]} * {[}+ +{]}
+\item
+  {[}- -{]} * {[}- -{]}
+\item
+  {[}- -{]} * {[}- +{]}
+\item
+  {[}- -{]} * {[}+ +{]}
+\end{enumerate}
+
+このうち,2回以上掛け算が必要となるのは 5. のみ
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}width} \PY{n}{c} \PY{n}{v}\PY{p}{)}
+           \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{c} \PY{n}{w}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+} \PY{n}{c} \PY{n}{w}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{center} \PY{n}{i}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{i}\PY{p}{)} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{i}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{width} \PY{n}{i}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{i}\PY{p}{)} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{i}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.12}\label{exercise-2.12}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{percent2w} \PY{n}{c} \PY{n}{p}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{*} \PY{n}{c} \PY{p}{(}\PY{n+nb}{/} \PY{n}{p} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{n}{c} \PY{n}{p}\PY{p}{)}
+           \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{c} \PY{p}{(}\PY{n}{percent2w} \PY{n}{c} \PY{n}{p}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+} \PY{n}{c} \PY{p}{(}\PY{n}{percent2w} \PY{n}{c} \PY{n}{p}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{n}{x}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n}{width} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n}{center} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{100}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{50} \PY{l+m+mf}{1.0}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{car} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+49.550.5
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}29}]:} 1.0
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.13}\label{exercise-2.13}
+
+    区間\(X:\ (c_1-p_1, c_1+p_1)\), 区間\(Y:\ (c_2-p_2, c_2+p_2)\) とする.
+
+このとき,それぞれの区間におけるパーセント許容誤差は
+
+それぞれ\((p_1/c_1)*100\),\((p_2/c_2)*100\)
+
+区間の積は \[
+(c_1-p_1, c_1+p_1)*(c_2-p_2, c_2+p_2) = ((c_1-p_1)(c_2-p_2), (c_1+p_1)(c_2+p_2))\\
+                                      = ((c_1 c_2 - c_1 p_2 - c_2 p_1 + p_1 p_2),(c_1 c_2 + c_1 p_2 + c_2 p_1 + p_1 p_2))
+\]
+
+いま、パーセント許容誤差が小さいので,\(p_1, p_2\)も小さくなるだろう.故にその積\(p_1p_2 \approx 0\)である.
+
+したがって,この区間の積における誤差は\(c_1p_2+c_2p_1\),パーセント許容誤差は\(((c_1p_2+c_2p_1)/c_1c_2)*100\)
+
+つまり,区間X,Yのパーセント許容誤差の和である.
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{par1} \PY{n}{r1} \PY{n}{r2}\PY{p}{)}
+           \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{p}{(}\PY{n}{mul\PYZhy{}interval} \PY{n}{r1} \PY{n}{r2}\PY{p}{)}
+                         \PY{p}{(}\PY{n}{add\PYZhy{}interval} \PY{n}{r1} \PY{n}{r2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{par2} \PY{n}{r1} \PY{n}{r2}\PY{p}{)}
+           \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n}{one} \PY{p}{(}\PY{n}{make\PYZhy{}interval} \PY{l+m+mi}{1} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n}{div\PYZhy{}interval}
+                 \PY{n}{one} \PY{p}{(}\PY{n}{add\PYZhy{}interval} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{one} \PY{n}{r1}\PY{p}{)}
+                                   \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{one} \PY{n}{r2}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.14}\label{exercise-2.14}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A : interval (10 +\PYZhy{} 1\PYZpc{} ) }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{A} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{10} \PY{l+m+mf}{1.0}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{B : interval (15 +\PYZhy{} 5\PYZpc{} ) }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{B} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{15} \PY{l+m+mf}{5.0}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{A:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{A}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{A}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{B:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{n}{B}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{n}{B}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A/A :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{p}{(}\PY{n}{par1} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{p}{(}\PY{n}{par1} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A/A :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{p}{(}\PY{n}{par2} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{p}{(}\PY{n}{par2} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center A/A: }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{par1} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{par2} \PY{n}{A} \PY{n}{A}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{newline}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A/B :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{p}{(}\PY{n}{par1} \PY{n}{A} \PY{n}{B}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{p}{(}\PY{n}{par1} \PY{n}{A} \PY{n}{B}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A/B :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{lower\PYZhy{}bound} \PY{p}{(}\PY{n}{par2} \PY{n}{A} \PY{n}{B}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{upper\PYZhy{}bound} \PY{p}{(}\PY{n}{par2} \PY{n}{A} \PY{n}{B}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+"A : interval (10 +- 1\% ) ""B : interval (15 +- 5\% ) ""A:"9.910.1"B:"14.2515.75
+"par1 A/A :"4.85198019801980255.152020202020202"par2 A/A :"4.955.05
+"center A/A: ""par1 :"5.002000200020002"par2 :"5.0
+"par1 A/B :"5.4574468085106386.58695652173913"par2 A/B :"5.8416149068322996.153771760154739
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{p}{(}\PY{k}{define} \PY{n}{A1} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{A10} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{A50} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{B1} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{B10} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{B50} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A1 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A1} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A1 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A1 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A1 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A1} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A1 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A1} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A1 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A1 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A1 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A1} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A1 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A1} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A1 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A1 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A1 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A1} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{c+c1}{;;;;;;;;}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A10 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A10 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A10 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A10} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A10 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A10 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A10 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A10} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A10 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A10 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A10 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A10} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A10 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A10 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A10 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A10} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A10 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A10 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A10 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A10} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A10 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A10 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A10 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A10} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{c+c1}{;;;;;;;;;;}
+         
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A50 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A50 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A50 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A50} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A50 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A50 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A50 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A50} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A50 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A50 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A50 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A50} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A50 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A50 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A50 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A50} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par1 A50 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A50 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A50 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par1} \PY{n}{A50} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{par2 A50 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par2 A50 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par2 A50 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{par2} \PY{n}{A50} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+"par1 A1 B1"2.999200239928031"par2 A1 B1"1.000000000000007"par1 A1 B10"16.389950846531946"par2 A1 B10"5.522388059701501"par1 A1 B50"67.51024183956655"par2 A1 B50"28.998799931424653"par1 A10 B1"16.389950846531946"par2 A10 B1"5.522388059701501"par1 A10 B10"29.223300970873794"par2 A10 B10"10.0"par1 A10 B50"74.39024390243902"par2 A10 B50"32.75862068965517"par1 A50 B1"67.51024183956655"par2 A50 B1"28.998799931424653"par1 A50 B10"74.39024390243902"par2 A50 B10"32.75862068965517"par1 A50 B50"92.85714285714285"par2 A50 B50"50.0
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{p}{(}\PY{k}{define} \PY{n}{A1} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{A10} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{A50} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{B1} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{B10} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{B50} \PY{p}{(}\PY{n}{make\PYZhy{}center\PYZhy{}percent} \PY{l+m+mi}{100} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A1 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A1 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A1 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A1} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;;;;;;;;}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A10 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A10 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A10 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A10} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;;;;;;;;}
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A50 B1}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B1)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B1)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A50 B10}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B10)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B10)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B10}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{n+nb}{print} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{div\PYZhy{}interval A50 B50}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+         \PY{c+c1}{;(print (lower\PYZhy{}bound (par1 A1 B50)))}
+         \PY{c+c1}{;(print (upper\PYZhy{}bound (par1 A1 B50)))}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{get\PYZhy{}percent} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n}{center} \PY{p}{(}\PY{n}{div\PYZhy{}interval} \PY{n}{A50} \PY{n}{B50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;;;;;;;;}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+"div-interval A1 B1"1.99980001999800771.0002000200020003"div-interval A1 B10"10.9890109890109941.011111111111111"div-interval A1 B50"50.746268656716411.34"div-interval A10 B1"10.989010989010991.001100110011001"div-interval A10 B10"19.801980198019811.0202020202020203"div-interval A10 B50"57.142857142857141.4000000000000001"div-interval A50 B1"50.746268656716431.005100510051005"div-interval A50 B10"57.142857142857151.0606060606060606"div-interval A50 B50"80.01.6666666666666667
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.15}\label{exercise-2.15}
+
+    \(R_1 : [a, b],\ R_2 : [c, d]\)としてpar1, par2 を計算する.
+
+\textbf{par1}
+
+\[
+\frac{R_1R_2}{R_1+R_2} = \frac{[a,b]*[c,d]}{[a,b]+[c,d]} = \frac{[ac,bd]}{[a+c,b+d]} = [\frac{ac}{b+d},\frac{bd}{a+c}]
+\]
+
+\textbf{par2}
+
+\[
+\frac{1}{\frac{1}{R_1} + \frac{1}{R_2}} = \frac{1}{[1/b,1/a]+[1/d,1/c]} = \frac{1}{[\frac{b+d}{bd},\frac{a+c}{ac}]} = [\frac{ac}{a+c},\frac{bd}{b+d}]
+\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{p}{(}\PY{n+nb}{/} \PY{p}{(}\PY{n+nb}{*} \PY{l+m+mf}{9.9} \PY{l+m+mf}{14.25}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+} \PY{l+m+mf}{10.1} \PY{l+m+mf}{15.75}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; = 5.457446808510638 , par1 lower\PYZhy{}bound}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}34}]:} 5.457446808510639
+\end{Verbatim}
+        
+    \(R_1,R_2\)をただの実数だと考えるとpar1とpar2は等価な式になるが,区間をもつ値と考えると等価な式でなくなる.
+
+どちらが良いのか.
+
+上の式のを書き換える.
+
+\(R_1 : [x-dx, x+dx],\ R_2 : [y-dy, y+dy]\)
+
+このとき,pair1,pair2は,
+
+\textbf{pair1}
+
+\[
+\frac{R_1R_2}{R_1+R_2} = [\frac{xy-xdy-ydx-dxdy}{x+y+dx+dy},\frac{xy+xdy+ydx+dxdy}{x+y-dx-dy}]
+\]
+
+\textbf{pair2}
+
+\[
+\frac{1}{\frac{1}{R_1} + \frac{1}{R_2}} = [\frac{xy-xdy-ydx-dxdy}{x+y-dx-dy},\frac{xy+xdy+ydx+dxdy}{x+y+dx+dy}]
+\]
+
+pair2は,lowerの分母が小さく,upperの分母が大きくなっている.つまりlower,upperが中央の値に近づいていることがわかる.
+誤差が小さいのはpair2.
+
+    \subsubsection{Exercise 2.16}\label{exercise-2.16}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

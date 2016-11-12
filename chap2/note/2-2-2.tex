@@ -1,0 +1,1720 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{2-2-2}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{2.2 Hierarchical Data and Closure
+Property}\label{hierarchical-data-and-closure-property}
+
+``box-and-pointer notation'' , each object shown as a pointer to a box.
+
+The ability to create pairs whose elements are pairs is the essence of
+list strucure's importance as a representational tool.
+
+We refer to this ability as the ``closure property'' of cons.
+
+Closure is the key to power in any means of combination because it
+permits us to create hierarchical structures-structures make up of
+parts, which themselves are made up of parts, and so on.
+
+    \subsection{2.2.1 Representing Sequences}\label{representing-sequences}
+
+One of the useful structures we can build with pairs is a
+\textbf{\emph{sequence}} an ordered collection of data objects.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{p}{(}\PY{k}{define} \PY{n}{nil} \PY{o}{\PYZsq{}}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{c+c1}{; One particularly straightforward representation.}
+        
+        \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{1}
+              \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{2}
+                    \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{3}
+                          \PY{p}{(}\PY{n+nb}{cons} \PY{l+m+mi}{4} \PY{n}{nil}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}2}]:} (1 2 3 4)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{c+c1}{; Such a sepuence of pairs, formed by nested conses, is called a *list*.}
+        
+        \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}3}]:} (1 2 3 4)
+\end{Verbatim}
+        
+    In general,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{list} \NormalTok{<a1> <a2> ... <an>)}
+\end{Highlighting}
+\end{Shaded}
+
+is equivalent to
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{cons} \NormalTok{<a1>}
+      \NormalTok{(}\KeywordTok{cons} \NormalTok{<a2>}
+            \NormalTok{(}\KeywordTok{cons} \NormalTok{...}
+                  \NormalTok{(}\KeywordTok{cons} \NormalTok{<an>}
+                        \KeywordTok{nil}\NormalTok{)...))}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}4}]:} 1
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}5}]:} (2 3 4)
+\end{Verbatim}
+        
+    The value of \textbf{\emph{nil}}, used to terminate the chain of pairs,
+can be thought of as a sequence of no elements, the empty list.
+
+    \subsubsection{Lisp operations}\label{lisp-operations}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{c+c1}{; The procedure \PYZdq{}list\PYZhy{}ref\PYZdq{} takes as argument a *list* and a number *n*}
+        \PY{c+c1}{; and returns *nth* item of the list.}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{list\PYZhy{}ref} \PY{n}{items} \PY{n}{n}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{=} \PY{n}{n} \PY{l+m+mi}{0}\PY{p}{)}
+              \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}
+              \PY{p}{(}\PY{n+nb}{list\PYZhy{}ref} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{n} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{p}{(}\PY{k}{define} \PY{n}{squares} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{4} \PY{l+m+mi}{9} \PY{l+m+mi}{16} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{n+nb}{list\PYZhy{}ref} \PY{n}{squares} \PY{l+m+mi}{3}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} 16
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{c+c1}{; The procedure \PYZdq{}length\PYZdq{} returns the number of items in a list}
+        
+        \PY{c+c1}{; procedure implements.}
+        
+        \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{length} \PY{n}{items}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)}
+              \PY{l+m+mi}{0}
+              \PY{p}{(}\PY{n+nb}{+} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{length} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{p}{(}\PY{n+nb}{length} \PY{n}{squares}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}9}]:} 5
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{c+c1}{; iterative style}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{length} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{length\PYZhy{}iter} \PY{n}{a} \PY{n+nb}{count}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{a}\PY{p}{)}
+                 \PY{n+nb}{count}
+                 \PY{p}{(}\PY{n}{length\PYZhy{}iter} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{a}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+} \PY{l+m+mi}{1} \PY{n+nb}{count}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{length\PYZhy{}iter} \PY{n}{items} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{odds} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{l+m+mi}{5} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{length} \PY{n}{odds}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}10}]:} 4
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{c+c1}{; Another conventinal programming technique , \PYZdq{}append\PYZdq{}.}
+         
+         \PY{c+c1}{; implemented using a recursive style. }
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{append} \PY{n}{list1} \PY{n}{list2}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{list1}\PY{p}{)}
+               \PY{n}{list2}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{car} \PY{n}{list1}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{list1}\PY{p}{)} \PY{n}{list2}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{p}{(}\PY{n+nb}{append} \PY{n}{odds} \PY{n}{squares}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}12}]:} (1 3 5 7 1 4 9 16 25)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{p}{(}\PY{n+nb}{append} \PY{n}{squares} \PY{n}{odds}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}13}]:} (1 4 9 16 25 1 3 5 7)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.17}\label{exercise-2.17}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{c+c1}{; solution 1}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list\PYZhy{}ref} \PY{n}{items} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{p}{(}\PY{n+nb}{length} \PY{n}{items}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+               \PY{n}{items}
+               \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{odds}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}16}]:} (7)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{squares}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}17}]:} (25)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{; solution 2}
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{odds}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}19}]:} 7
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{p}{(}\PY{n+nb}{last\PYZhy{}pair} \PY{n}{squares}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}20}]:} 25
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.18}\label{exercise-2.18}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{reverse} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)}
+               \PY{n}{items}
+               \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n+nb}{reverse} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{p}{(}\PY{n+nb}{reverse} \PY{n}{odds}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}22}]:} (7 5 3 1)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{p}{(}\PY{n+nb}{append} \PY{n}{nil} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}23}]:} (1)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.19}\label{exercise-2.19}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{p}{(}\PY{k}{define} \PY{n}{us\PYZhy{}coins} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{50} \PY{l+m+mi}{25} \PY{l+m+mi}{10} \PY{l+m+mi}{5} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{uk\PYZhy{}coins} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{100} \PY{l+m+mi}{50} \PY{l+m+mi}{20} \PY{l+m+mi}{10} \PY{l+m+mi}{5} \PY{l+m+mi}{2} \PY{l+m+mi}{1} \PY{l+m+mf}{0.5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{c+c1}{; Section 1.2.2}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{count\PYZhy{}change} \PY{n}{amount}\PY{p}{)} \PY{p}{(}\PY{n}{cc} \PY{n}{amount} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{cc} \PY{n}{amount} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{amount} \PY{l+m+mi}{0}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{k}{or} \PY{p}{(}\PY{n+nb}{\PYZlt{}} \PY{n}{amount} \PY{l+m+mi}{0}\PY{p}{)} \PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{cc} \PY{n}{amount}
+                              \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n}{cc} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{amount}
+                                 \PY{p}{(}\PY{n}{first\PYZhy{}denomination}
+                                  \PY{n}{kinds\PYZhy{}of\PYZhy{}coins}\PY{p}{)}\PY{p}{)}
+                              \PY{n}{kinds\PYZhy{}of\PYZhy{}coins}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{first\PYZhy{}denomination} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{1}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{2}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{3}\PY{p}{)} \PY{l+m+mi}{10}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{25}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{kinds\PYZhy{}of\PYZhy{}coins} \PY{l+m+mi}{5}\PY{p}{)} \PY{l+m+mi}{50}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;(count\PYZhy{}change 100) =\PYZgt{} 292}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{cc} \PY{n}{amount} \PY{n}{coin\PYZhy{}values}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{=} \PY{n}{amount} \PY{l+m+mi}{0}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{k}{or} \PY{p}{(}\PY{n+nb}{\PYZlt{}} \PY{n}{amount} \PY{l+m+mi}{0}\PY{p}{)} \PY{p}{(}\PY{n}{no\PYZhy{}more?} \PY{n}{coin\PYZhy{}values}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else}
+                  \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{cc} \PY{n}{amount}
+                         \PY{p}{(}\PY{n}{except\PYZhy{}first\PYZhy{}denomination}
+                         \PY{n}{coin\PYZhy{}values}\PY{p}{)}\PY{p}{)}
+                     \PY{p}{(}\PY{n}{cc} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{amount}
+                            \PY{p}{(}\PY{n}{first\PYZhy{}denomination}
+                             \PY{n}{coin\PYZhy{}values}\PY{p}{)}\PY{p}{)}
+                         \PY{n}{coin\PYZhy{}values}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{first\PYZhy{}denomination} \PY{n}{coins}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{car} \PY{n}{coins}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{except\PYZhy{}first\PYZhy{}denomination} \PY{n}{coins}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{coins}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{no\PYZhy{}more?} \PY{n}{coins}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{null?} \PY{n}{coins}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{p}{(}\PY{n}{cc} \PY{l+m+mi}{100} \PY{n}{us\PYZhy{}coins}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}30}]:} 292
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.20}\label{exercise-2.20}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{c+c1}{; my solution}
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{same\PYZhy{}parity} \PY{n}{x} \PY{o}{.} \PY{n}{xs}\PY{p}{)}
+           \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{[}\PY{n}{p} \PY{p}{(}\PY{n}{mod} \PY{n}{x} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+             \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{sp} \PY{n}{xs}\PY{p}{)}
+               \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{null?} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{=} \PY{n}{p} \PY{p}{(}\PY{n}{mod} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs}\PY{p}{)} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs} \PY{p}{)} \PY{p}{(}\PY{n}{sp} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                       \PY{p}{(}\PY{n}{sp} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{=} \PY{n}{p} \PY{p}{(}\PY{n}{mod} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs}\PY{p}{)} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs}\PY{p}{)}\PY{p}{)}
+                          \PY{n}{nil}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{cons} \PY{n}{x} \PY{p}{(}\PY{n}{sp} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{same\PYZhy{}parity} \PY{n}{x} \PY{o}{.} \PY{n}{xs}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{sp?} \PY{n}{y}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{=} \PY{p}{(}\PY{n}{mod} \PY{p}{(}\PY{n+nb}{\PYZhy{}} \PY{n}{x} \PY{n}{y}\PY{p}{)} \PY{l+m+mi}{2}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{sp} \PY{n}{xs}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{xs}\PY{p}{)}
+               \PY{n}{xs}
+               \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n}{sp?} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs}\PY{p}{)}\PY{p}{)}
+                        \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{car} \PY{n}{xs}\PY{p}{)} \PY{p}{(}\PY{n}{sp} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                        \PY{p}{(}\PY{n}{sp} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{cons} \PY{n}{x} \PY{p}{(}\PY{n}{sp} \PY{n}{xs}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{p}{(}\PY{n}{same\PYZhy{}parity} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{8} \PY{l+m+mi}{9} \PY{l+m+mi}{10} \PY{l+m+mi}{11} \PY{l+m+mi}{12}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+mod: undefined;
+ cannot reference undefined identifier
+  context{\ldots}:
+   eval:1:0: same-parity
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:475:0: call-with-custodian-shutdown
+   /Applications/Racket v6.7/collects/racket/private/more-scheme.rkt:148:2: call-with-break-parameterization
+   {\ldots}/more-scheme.rkt:261:28
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:843:5: loop
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{p}{(}\PY{n}{same\PYZhy{}parity} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+mod: undefined;
+ cannot reference undefined identifier
+  context{\ldots}:
+   eval:1:0: same-parity
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:475:0: call-with-custodian-shutdown
+   /Applications/Racket v6.7/collects/racket/private/more-scheme.rkt:148:2: call-with-break-parameterization
+   {\ldots}/more-scheme.rkt:261:28
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:843:5: loop
+
+    \end{Verbatim}
+
+    \subsubsection{Mapping over lists}\label{mapping-over-lists}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{scale\PYZhy{}list} \PY{n}{items} \PY{n}{factor}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)}
+               \PY{n}{nil}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)} \PY{n}{factor}\PY{p}{)}
+                     \PY{p}{(}\PY{n}{scale\PYZhy{}list} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)} \PY{n}{factor}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{p}{(}\PY{n}{scale\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}36}]:} (10 20 30 40 50)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{my\PYZus{}map} \PY{n}{proc} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)}
+               \PY{n}{nil}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n}{proc} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+                     \PY{p}{(}\PY{n}{my\PYZus{}map} \PY{n}{proc} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{p}{(}\PY{n}{my\PYZus{}map} \PY{n+nb}{abs} \PY{p}{(}\PY{n+nb}{list}  \PY{l+m+mi}{\PYZhy{}10} \PY{l+m+mf}{2.4} \PY{l+m+mi}{\PYZhy{}11} \PY{l+m+mi}{19}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}38}]:} (10 2.4 11 19)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{p}{(}\PY{n}{my\PYZus{}map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}39}]:} (1 4 9 16)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} \PY{c+c1}{; a new definition of *scale\PYZhy{}list* in terms of map:}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{scale\PYZhy{}list} \PY{n}{items} \PY{n}{factor}\PY{p}{)}
+           \PY{p}{(}\PY{n}{my\PYZus{}map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{factor}\PY{p}{)}\PY{p}{)}
+                \PY{n}{items}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{quote}
+\textbf{\emph{map}} is an important construct, not only because it
+captures a common pattern, but because it estalished a higher level of
+abstraction in dealing with lists.
+\end{quote}
+
+    \paragraph{Exercise 2.21}\label{exercise-2.21}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)}
+               \PY{n}{nil}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}42}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}43}]:} (1 4 9 16)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.22}\label{exercise-2.22}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square} \PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{things} \PY{n}{answer}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{things}\PY{p}{)}
+                 \PY{n}{answer}
+                 \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{things}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n}{square} \PY{p}{(}\PY{n+nb}{car} \PY{n}{things}\PY{p}{)}\PY{p}{)}
+                             \PY{n}{answer}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{n}{items} \PY{n}{nil}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}45}]:} (16 9 4 1)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}46}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{things} \PY{n}{answer}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{things}\PY{p}{)}
+                 \PY{n}{answer}
+                 \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{things}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{cons} \PY{n}{answer}
+                             \PY{p}{(}\PY{n}{square} \PY{p}{(}\PY{n+nb}{car} \PY{n}{things}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{n}{items} \PY{n}{nil}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}47}]:} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}47}]:} ((((() . 1) . 4) . 9) . 16)
+\end{Verbatim}
+        
+    実行してるのは、
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{cons} \NormalTok{... (}\KeywordTok{cons} \NormalTok{(}\KeywordTok{cons} \DecValTok{1} \DecValTok{4}\NormalTok{) }\DecValTok{9}\NormalTok{) ...)}
+\end{Highlighting}
+\end{Shaded}
+
+実行したいのは
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(}\KeywordTok{cons} \DecValTok{1} \NormalTok{(}\KeywordTok{cons} \DecValTok{4} \NormalTok{... (}\KeywordTok{cons} \DecValTok{9} \NormalTok{nil)...)}
+\end{Highlighting}
+\end{Shaded}
+
+解法の一つは、listにlistを結合,appendする.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{things} \PY{n}{answer}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{things}\PY{p}{)}
+                 \PY{n}{answer}
+                 \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{things}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{append} \PY{n}{answer}
+                               \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n}{square} \PY{p}{(}\PY{n+nb}{car} \PY{n}{things}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n}{iter} \PY{n}{items} \PY{n}{nil}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}49}]:} (1 4 9 16 25)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{iter} \PY{n}{things} \PY{n}{answer}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{things}\PY{p}{)}
+                 \PY{n}{answer}
+                 \PY{p}{(}\PY{n}{iter} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{things}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{append} \PY{n}{answer} \PY{c+c1}{; cons \PYZhy{}\PYZgt{} append}
+                             \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n}{square} \PY{p}{(}\PY{n+nb}{car} \PY{n}{things}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; (...) \PYZhy{}\PYZgt{} (list (...))}
+           \PY{p}{(}\PY{n}{iter} \PY{n}{items} \PY{n}{nil}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{p}{(}\PY{n}{square\PYZhy{}list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}51}]:} (1 4 9 16 25)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.23}\label{exercise-2.23}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{c+c1}{;Bad solution}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{n}{procedure} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{n}{procedure} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+               \PY{n}{nil}
+               \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{n}{procedure} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{print} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+12345
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{print} \PY{p}{(}\PY{n+nb}{*} \PY{n}{x} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+182764125
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{print} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{n}{nil}\PY{p}{)} \PY{c+c1}{;}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+car: contract violation
+  expected: pair?
+  given: '()
+  context{\ldots}:
+   eval:3:0: for-each
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:475:0: call-with-custodian-shutdown
+   /Applications/Racket v6.7/collects/racket/private/more-scheme.rkt:148:2: call-with-break-parameterization
+   {\ldots}/more-scheme.rkt:261:28
+   /Applications/Racket v6.7/share/pkgs/sandbox-lib/racket/sandbox.rkt:843:5: loop
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{n}{procedure} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)} \PY{n}{nil}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else}  \PY{p}{(}\PY{n}{procedure} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+                        \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{n}{procedure} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{; car / cdr を使うには、まず、items が nil かどうかをチェックしよう}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{print} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+12345
+    \end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}58}]:} ()
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{p}{(}\PY{n+nb}{for\PYZhy{}each} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{print} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{n}{nil}\PY{p}{)} \PY{c+c1}{;}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}59}]:} ()
+\end{Verbatim}
+        
+    \subsection{2.2.1 Hierarchical
+Structures}\label{hierarchical-structures}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{x}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}60}]:} ((1 2) 3 4)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}61}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{count\PYZhy{}leaves} \PY{n}{tree}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{tree}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{tree}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{count\PYZhy{}leaves} \PY{p}{(}\PY{n+nb}{car} \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n}{count\PYZhy{}leaves} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}62}]:} \PY{p}{(}\PY{n+nb}{length} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}62}]:} 3
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}63}]:} \PY{p}{(}\PY{n}{count\PYZhy{}leaves} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}63}]:} 4
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}64}]:} \PY{p}{(}\PY{k}{define} \PY{n}{y} \PY{p}{(}\PY{n+nb}{list} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+         \PY{n}{y}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}64}]:} (((1 2) 3 4) ((1 2) 3 4))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}65}]:} \PY{p}{(}\PY{n+nb}{length} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}65}]:} 2
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}66}]:} \PY{p}{(}\PY{n}{count\PYZhy{}leaves} \PY{p}{(}\PY{n+nb}{list} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}66}]:} 8
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.24}\label{exercise-2.24}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}67}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{x}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}67}]:} (1 (2 (3 4)))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}68}]:} \PY{p}{(}\PY{n+nb}{car} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}68}]:} 1
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}69}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}69}]:} ((2 (3 4)))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}70}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}70}]:} (2 (3 4))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}71}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}71}]:} ()
+\end{Verbatim}
+        
+    \begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}72}]:} \PY{p}{(}\PY{k}{define} \PY{n}{y} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}73}]:} \PY{p}{(}\PY{n+nb}{car} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}73}]:} 1
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}74}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{y}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}74}]:} (2 3 4)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}75}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}75}]:} 2
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}76}]:} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{y}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}76}]:} (3 4)
+\end{Verbatim}
+        
+    \begin{Shaded}
+\begin{Highlighting}[]
+                    \KeywordTok{(1} \NormalTok{(2 (3 4}\KeywordTok{)}\NormalTok{)) }\KeywordTok{->} \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* /]}
+                                      \KeywordTok{|}         \KeywordTok{|} \CommentTok{# (2 (3 4))}
+                                      \NormalTok{∨         ∨}
+                                      \KeywordTok{1}        \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* /]}
+                                                \KeywordTok{|}         \KeywordTok{|} \CommentTok{# (3 4) }
+                                                \NormalTok{∨         ∨}
+                                                \KeywordTok{2}        \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* /]}
+                                                          \KeywordTok{|}         \KeywordTok{|}
+                                                          \NormalTok{∨         ∨}
+                                                          \KeywordTok{3}         \NormalTok{4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{参考}
+                        \KeywordTok{(1} \NormalTok{2 3 4}\KeywordTok{)} \KeywordTok{->} \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* *] --}\KeywordTok{>} \NormalTok{[* /]}
+                                      \KeywordTok{|}         \KeywordTok{|}         \KeywordTok{|}         \KeywordTok{|}
+                                      \NormalTok{∨         ∨         ∨         ∨}
+                                      \KeywordTok{1}         \NormalTok{2         3}
+                                      
+
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+                                      \KeywordTok{(1} \NormalTok{(2 (3 4}\KeywordTok{)}\NormalTok{))}
+                                           \NormalTok{/}\KeywordTok{\textbackslash{}}
+                                          \KeywordTok{/}  \NormalTok{\textbackslash{}}
+                                         \NormalTok{/    \textbackslash{}}
+                                        \NormalTok{1   (2 (3 4)) }
+                                              \NormalTok{/}\KeywordTok{\textbackslash{}}
+                                             \KeywordTok{/}  \NormalTok{\textbackslash{}}
+                                            \NormalTok{/    \textbackslash{}}
+                                           \NormalTok{2   (3 4)}
+                                                 \NormalTok{/}\KeywordTok{\textbackslash{}}
+                                                \KeywordTok{/}  \NormalTok{\textbackslash{}}
+                                               \NormalTok{/    \textbackslash{}}
+                                              \NormalTok{3      4}
+\end{Highlighting}
+\end{Shaded}
+
+    \paragraph{Exercise 2.25}\label{exercise-2.25}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}77}]:} \PY{c+c1}{; 1.}
+         
+         \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{5} \PY{l+m+mi}{7}\PY{p}{)} \PY{l+m+mi}{9}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}77}]:} (1 3 (5 7) 9)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}78}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{5} \PY{l+m+mi}{7}\PY{p}{)} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}78}]:} 7
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}79}]:} \PY{c+c1}{; 2.}
+         
+         \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}79}]:} ((7))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}80}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}80}]:} 7
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}81}]:} \PY{c+c1}{; 3.}
+         
+         \PY{p}{(}\PY{k}{define} \PY{n}{prob3} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{4} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{5} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{prob3}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}81}]:} (1 (2 (3 (4 (5 (6 7))))))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}82}]:} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr}  \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{prob3}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}82}]:} 7
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.26}\label{exercise-2.26}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}83}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define} \PY{n}{y} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}84}]:} \PY{c+c1}{; append :: [a] \PYZhy{}\PYZgt{} [a] \PYZhy{}\PYZgt{} [a]}
+         \PY{p}{(}\PY{n+nb}{append} \PY{n}{x} \PY{n}{y}\PY{p}{)} \PY{c+c1}{; =\PYZgt{} (1 2 3 4 5 6)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}84}]:} (1 2 3 4 5 6)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}85}]:} \PY{c+c1}{;cons :: a \PYZhy{}\PYZgt{} [a] \PYZhy{}\PYZgt{} [a]}
+         \PY{p}{(}\PY{n+nb}{cons} \PY{n}{x} \PY{n}{y}\PY{p}{)} \PY{c+c1}{; =\PYZgt{} ((1 2 3) 4 5 6)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}85}]:} ((1 2 3) 4 5 6)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}86}]:} \PY{c+c1}{;list :: a \PYZhy{}\PYZgt{} a \PYZhy{}\PYZgt{} [a]}
+         \PY{p}{(}\PY{n+nb}{list} \PY{n}{x} \PY{n}{y}\PY{p}{)} \PY{c+c1}{; =\PYZgt{} ((1 2 3) (4 5 6))}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}86}]:} ((1 2 3) (4 5 6))
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.27}\label{exercise-2.27}
+
+yet solved
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}87}]:} \PY{c+c1}{;(define (reverse2 items)}
+         \PY{c+c1}{;  (if (not (pair? items))}
+         \PY{c+c1}{;      items}
+         \PY{c+c1}{;      (if (null? items)}
+         \PY{c+c1}{;          items}
+         \PY{c+c1}{;          (append (reverse2 (cdr items)) (list (car items))))))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}88}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{deep\PYZus{}reverse} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)} \PY{n}{nil}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{pair?} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n}{deep\PYZus{}reverse} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+                                              \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n}{deep\PYZus{}reverse} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n}{deep\PYZus{}reverse} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}
+                               \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}89}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{n}{l}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{l}\PY{p}{)} \PY{n}{l}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{pair?} \PY{p}{(}\PY{n+nb}{car} \PY{n}{l}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{push} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{p}{(}\PY{n+nb}{car} \PY{n}{l}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{l}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n}{push} \PY{p}{(}\PY{n+nb}{car} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{l}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{push} \PY{n}{a} \PY{n}{l}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{l}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{n}{a} \PY{n}{l}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{car} \PY{n}{l}\PY{p}{)} \PY{p}{(}\PY{n}{push} \PY{n}{a} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{l}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}90}]:} \PY{p}{(}\PY{n}{deep\PYZus{}reverse}\PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}90}]:} ((4 3) (2 1))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}91}]:} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}91}]:} ((4 3) (2 1))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}92}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n}{x}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}92}]:} ((1 2 (1 2)) (3 4))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}93}]:} \PY{p}{(}\PY{n}{deep\PYZus{}reverse} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}93}]:} ((4 3) ((2 1) 2 1))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}94}]:} \PY{p}{(}\PY{n}{d\PYZhy{}r} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}94}]:} ((4 3) ((2 1) 2 1))
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.28}\label{exercise-2.28}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}95}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{fringe} \PY{n}{items}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{items}\PY{p}{)} \PY{n}{nil}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{pair?} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n}{fringe} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{fringe} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n+nb}{append} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{car} \PY{n}{items}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{fringe} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{items}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}96}]:} \PY{p}{(}\PY{k}{define} \PY{n}{x} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n}{fringe} \PY{n}{x}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}96}]:} (1 2 3 4)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}97}]:} \PY{p}{(}\PY{n}{fringe} \PY{p}{(}\PY{n+nb}{list} \PY{n}{x} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}97}]:} (1 2 3 4 1 2 3 4)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}98}]:} \PY{p}{(}\PY{n}{fringe} \PY{p}{(}\PY{n+nb}{list} \PY{p}{(}\PY{n+nb}{list} \PY{n}{x} \PY{l+m+mi}{5}\PY{p}{)} \PY{n}{x}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}98}]:} (1 2 3 4 5 1 2 3 4)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.29}\label{exercise-2.29}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}99}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}mobile} \PY{n}{left} \PY{n}{right}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{list} \PY{n}{left} \PY{n}{right}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{n+nb}{length} \PY{n}{structure}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{list} \PY{n+nb}{length} \PY{n}{structure}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}100}]:} \PY{c+c1}{; a.}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{car} \PY{n}{mobile}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{mobile}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{branch\PYZhy{}length} \PY{n}{branch}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{car} \PY{n}{branch}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{n}{branch}\PY{p}{)}
+                \PY{p}{(}\PY{n+nb}{car} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{branch}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}101}]:} \PY{p}{(}\PY{k}{define} \PY{n}{mobile1} \PY{p}{(}\PY{n}{make\PYZhy{}mobile} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{1} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{1} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{p}{(}\PY{k}{define} \PY{n}{mobile2} \PY{p}{(}\PY{n}{make\PYZhy{}mobile} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{1} \PY{l+m+mi}{15}\PY{p}{)} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{3} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{n}{mobile3}  \PY{p}{(}\PY{n}{make\PYZhy{}mobile} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{2} \PY{n}{mobile1}\PY{p}{)}
+                                        \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{1} \PY{n}{mobile2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{n}{mobile4}  \PY{p}{(}\PY{n}{make\PYZhy{}mobile} \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{2} \PY{n}{mobile1}\PY{p}{)}
+                                        \PY{p}{(}\PY{n}{make\PYZhy{}branch} \PY{l+m+mi}{2} \PY{n}{mobile2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}102}]:} \PY{c+c1}{; b.}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{branch\PYZhy{}weight} \PY{n}{branch}\PY{p}{)}
+            \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n}{structure} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{n}{branch}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+              \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{structure}\PY{p}{)}\PY{p}{)}
+                  \PY{n}{structure}
+                  \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{structure}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{mobile}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{+} \PY{p}{(}\PY{n}{branch\PYZhy{}weight} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{branch\PYZhy{}weight} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}103}]:} \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{mobile1}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}103}]:} 10
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}104}]:} \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{mobile2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}104}]:} 20
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}105}]:} \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{mobile3}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}105}]:} 30
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}106}]:} \PY{c+c1}{; c.}
+          
+          \PY{c+c1}{;(define (balanced? mobile)}
+          \PY{c+c1}{;  (let [(left\PYZhy{}weight (if (pair? (branch\PYZhy{}structure (left\PYZhy{}branch mobile)))}
+          \PY{c+c1}{;                        (total\PYZhy{}weight (branch\PYZhy{}structure (left\PYZhy{}branch mobile)))}
+          \PY{c+c1}{;                        (branch\PYZhy{}structure (left\PYZhy{}branch mobile))))}
+          \PY{c+c1}{;        (right\PYZhy{}weight (if (pair? (branch\PYZhy{}structure (right\PYZhy{}branch mobile)))}
+          \PY{c+c1}{;                          (total\PYZhy{}weight (branch\PYZhy{}structure (right\PYZhy{}branch mobile)))}
+          \PY{c+c1}{;                          (branch\PYZhy{}structure (right\PYZhy{}branch mobile))))]}
+          \PY{c+c1}{;    }
+          \PY{c+c1}{;      (= (* left\PYZhy{}weight ; left weight}
+          \PY{c+c1}{;            (branch\PYZhy{}length (left\PYZhy{}branch mobile))) ; left length}
+          \PY{c+c1}{;         (* right\PYZhy{}weight ; right weight}
+          \PY{c+c1}{;            (branch\PYZhy{}length (right\PYZhy{}branch mobile)))))) ; right length}
+          
+          
+          \PY{c+c1}{;(define (balanced? mobile)}
+          \PY{c+c1}{;    }
+          \PY{c+c1}{;  (and (= (* (total\PYZhy{}weight (left\PYZhy{}branch mobile)))}
+          \PY{c+c1}{;          (* (total\PYZhy{}weight (right\PYZhy{}branch mobile))))}
+          \PY{c+c1}{;       (balanced? (left\PYZhy{}branch mobile))}
+          \PY{c+c1}{;       (balanced? (right\PYZhy{}branch moible))))}
+          
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{balanced?} \PY{k}{struct}\PY{p}{)}
+            \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{pair?} \PY{k}{struct}\PY{p}{)}
+                \PY{p}{(}\PY{k}{and} \PY{p}{(}\PY{n+nb}{=} \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{branch\PYZhy{}weight} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{branch\PYZhy{}length} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                        \PY{p}{(}\PY{n+nb}{*} \PY{p}{(}\PY{n}{branch\PYZhy{}weight} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n}{branch\PYZhy{}length} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                     \PY{p}{(}\PY{n}{balanced?} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                     \PY{p}{(}\PY{n}{balanced?} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{k}{struct}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                \PY{n+no}{\PYZsh{}t}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}107}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile1}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}107}]:} \#t
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}108}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}108}]:} \#t
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}109}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile3}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}109}]:} \#t
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}110}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile4}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}110}]:} \#f
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}111}]:} \PY{c+c1}{; d.}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}mobile\PYZus{}2} \PY{n}{left} \PY{n}{right}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons} \PY{n}{left} \PY{n}{right}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{n+nb}{length} \PY{n}{structure}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{cons} \PY{n+nb}{length} \PY{n}{structure}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}112}]:} \PY{p}{(}\PY{k}{define} \PY{n}{mobile1\PYZus{}2} \PY{p}{(}\PY{n}{make\PYZhy{}mobile\PYZus{}2} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{1} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{1} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{n}{mobile2\PYZus{}2} \PY{p}{(}\PY{n}{make\PYZhy{}mobile\PYZus{}2} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{1} \PY{l+m+mi}{15}\PY{p}{)} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{3} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{n}{mobile3\PYZus{}2}  \PY{p}{(}\PY{n}{make\PYZhy{}mobile\PYZus{}2} \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{2} \PY{n}{mobile1\PYZus{}2}\PY{p}{)}
+                                        \PY{p}{(}\PY{n}{make\PYZhy{}branch\PYZus{}2} \PY{l+m+mi}{1} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}113}]:} \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile1\PYZus{}2}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile3\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+'((1 . 5) 1 . 5)'((1 . 15) 3 . 5)'((2 (1 . 5) 1 . 5) 1 (1 . 15) 3 . 5)
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}114}]:} \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile1}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile2}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{print} \PY{n}{mobile3}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+'((1 5) (1 5))'((1 15) (3 5))'((2 ((1 5) (1 5))) (1 ((1 15) (3 5))))
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}115}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{car} \PY{n}{mobile}\PY{p}{)}\PY{p}{)}
+          
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{n}{mobile}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{mobile}\PY{p}{)}\PY{p}{)}
+          
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{branch\PYZhy{}length} \PY{n}{branch}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{car} \PY{n}{branch}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{n}{branch}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{branch}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}116}]:} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}116}]:} (1 . 15)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}117}]:} \PY{p}{(}\PY{n}{right\PYZhy{}branch} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}117}]:} (3 . 5)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}118}]:} \PY{p}{(}\PY{n}{branch\PYZhy{}length} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}118}]:} 1
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}119}]:} \PY{p}{(}\PY{n}{branch\PYZhy{}structure} \PY{p}{(}\PY{n}{left\PYZhy{}branch} \PY{n}{mobile2\PYZus{}2}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}119}]:} 15
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}120}]:} \PY{p}{(}\PY{n}{total\PYZhy{}weight} \PY{n}{mobile3\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}120}]:} 30
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}121}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile1\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}121}]:} \#t
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}122}]:} \PY{p}{(}\PY{n}{balanced?} \PY{n}{mobile3\PYZus{}2}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}122}]:} \#t
+\end{Verbatim}
+        
+    \paragraph{Mapping over trees}\label{mapping-over-trees}
+
+    \begin{quote}
+Just as \textbf{\emph{map}} is a powerful abstraction for dealing with
+sequaences, \textbf{\emph{map together with recursion}} is a powerful
+abstraction for daling with trees.
+\end{quote}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}123}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{n}{tree} \PY{n}{factor}\PY{p}{)}
+            \PY{p}{(}\PY{k}{cond} \PY{p}{(}\PY{p}{(}\PY{n+nb}{null?} \PY{n}{tree}\PY{p}{)} \PY{n}{nil}\PY{p}{)}
+                  \PY{p}{(}\PY{p}{(}\PY{n+nb}{not} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{tree}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{*} \PY{n}{tree} \PY{n}{factor}\PY{p}{)}\PY{p}{)}
+                  \PY{p}{(}\PY{k}{else} \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{car} \PY{n}{tree}\PY{p}{)} \PY{n}{factor}\PY{p}{)}
+                              \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{tree}\PY{p}{)} \PY{n}{factor}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}123}]:} (10 (20 (30 40) 50) (60 70))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}124}]:} \PY{c+c1}{; Another way to implement ***scale\PYZhy{}tree*** }
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{n}{tree} \PY{n}{factor}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                   \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                              \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{n}{sub\PYZhy{}tree} \PY{n}{factor}\PY{p}{)}
+                              \PY{p}{(}\PY{n+nb}{*} \PY{n}{sub\PYZhy{}tree} \PY{n}{factor}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+          
+          \PY{p}{(}\PY{n}{scale\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}124}]:} (10 (20 (30 40) 50) (60 70))
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.30}\label{exercise-2.30}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}125}]:} \PY{p}{(}\PY{k}{define} \PY{n}{tree} 
+               \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1}
+                     \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)}
+                     \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{n}{tree}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}125}]:} (1 (2 (3 4) 5) (6 7))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}126}]:} \PY{c+c1}{;　直接的}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{tree}\PY{p}{)}
+            \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{tree}\PY{p}{)}
+                \PY{n}{nil}
+                \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{pair?} \PY{p}{(}\PY{n+nb}{car} \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{car} \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n}{square} \PY{p}{(}\PY{n+nb}{car} \PY{n}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                      \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}127}]:} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{tree}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}127}]:} (1 (4 (9 16) 25) (36 49))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}128}]:} \PY{c+c1}{; 高階}
+          
+          \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{tree}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                   \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                       \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                       \PY{p}{(}\PY{n}{square} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                 \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}129}]:} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{tree}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}129}]:} (1 (4 (9 16) 25) (36 49))
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.31}\label{exercise-2.31}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}130}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{tree\PYZhy{}map} \PY{n}{proc} \PY{n}{tree}\PY{p}{)}
+            \PY{p}{(}\PY{n+nb}{map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                   \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{pair?} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                       \PY{p}{(}\PY{n}{tree\PYZhy{}map} \PY{n}{proc} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}
+                       \PY{p}{(}\PY{n}{proc} \PY{n}{sub\PYZhy{}tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+            \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}131}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{n}{tree}\PY{p}{)} \PY{p}{(}\PY{n}{tree\PYZhy{}map} \PY{n}{square} \PY{n}{tree}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}132}]:} \PY{p}{(}\PY{n}{square\PYZhy{}tree}
+               \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}132}]:} (1 (4 (9 16) 25) (36 49))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}133}]:} \PY{p}{(}\PY{n}{square\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}133}]:} (1 4 9 16)
+\end{Verbatim}
+        
+    \paragraph{Exercise 2.32}\label{exercise-2.32}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}134}]:} \PY{p}{(}\PY{k}{define} \PY{p}{(}\PY{n}{subsets} \PY{n}{s}\PY{p}{)}
+            \PY{p}{(}\PY{k}{if} \PY{p}{(}\PY{n+nb}{null?} \PY{n}{s}\PY{p}{)}
+                \PY{p}{(}\PY{n+nb}{list} \PY{n}{nil}\PY{p}{)}
+                \PY{p}{(}\PY{k}{let} \PY{p}{(}\PY{p}{(}\PY{n+nb}{rest} \PY{p}{(}\PY{n}{subsets} \PY{p}{(}\PY{n+nb}{cdr} \PY{n}{s}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                  \PY{p}{(}\PY{n+nb}{print} \PY{n+nb}{rest}\PY{p}{)}
+                  \PY{p}{(}\PY{n+nb}{append} \PY{n+nb}{rest} \PY{p}{(}\PY{n+nb}{map} \PY{p}{(}\PY{k}{lambda} \PY{p}{(}\PY{n}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons} \PY{p}{(}\PY{n+nb}{car} \PY{n}{s}\PY{p}{)} \PY{n}{x}\PY{p}{)}\PY{p}{)} \PY{n+nb}{rest}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}135}]:} \PY{p}{(}\PY{n}{subsets} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+'(())'(() (3))'(() (3) (2) (2 3))
+    \end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}135}]:} (() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}136}]:} \PY{p}{(}\PY{n}{subsets} \PY{p}{(}\PY{n+nb}{list} \PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+'(())'(() (4))'(() (4) (3) (3 4))'(() (4) (3) (3 4) (2) (2 4) (2 3) (2 3 4))
+    \end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}136}]:} (() (4) (3) (3 4) (2) (2 4) (2 3) (2 3 4) (1) (1 4) (1 3) (1 3 4) (1 2) (1 2 4) (1 2 3) (1 2 3 4))
+\end{Verbatim}
+        
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
