@@ -1,0 +1,987 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{2-2-3}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsection{2.2.3 Sequences Conventional
+Interfaces}\label{sequences-conventional-interfaces}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{square} \PY{n+nv}{x}\PY{p}{)}
+          \PY{p}{(}\PY{n+nb}{* }\PY{n+nv}{x} \PY{n+nv}{x}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{fib} \PY{n+nv}{k}\PY{p}{)}
+          \PY{p}{(}\PY{k}{cond }\PY{p}{(}\PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{k} \PY{l+m+mi}{0}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+                \PY{p}{(}\PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}
+                \PY{p}{(}\PY{k}{else }\PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nf}{fib} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{fib} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{k} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{p}{(}\PY{k}{define }\PY{n+nv}{nil} \PY{o}{\PYZsq{}}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        
+        \PY{c+c1}{;;;}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{sum\PYZhy{}odd\PYZhy{}squares} \PY{n+nv}{tree}\PY{p}{)}
+          \PY{p}{(}\PY{k}{cond }\PY{p}{(}\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{tree}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}
+                \PY{p}{(}\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{pair? }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{odd? }\PY{n+nv}{tree}\PY{p}{)} \PY{p}{(}\PY{n+nf}{square} \PY{n+nv}{tree}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+                \PY{p}{(}\PY{k}{else }\PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nf}{sum\PYZhy{}odd\PYZhy{}squares} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}
+                         \PY{p}{(}\PY{n+nf}{sum\PYZhy{}odd\PYZhy{}squares} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+        
+        \PY{c+c1}{;(print (sum\PYZhy{}odd\PYZhy{}squares (list 1 2 (list 3 4 (list 5 6)) 7)))}
+        
+        \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{even\PYZhy{}fibs} \PY{n+nv}{n}\PY{p}{)}
+          \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{next} \PY{n+nv}{k}\PY{p}{)}
+            \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{\PYZgt{} }\PY{n+nv}{k} \PY{n+nv}{n}\PY{p}{)}
+                \PY{n+nv}{nil}
+                \PY{p}{(}\PY{k}{let }\PY{p}{(}\PY{p}{(}\PY{n+nf}{f} \PY{p}{(}\PY{n+nf}{fib} \PY{n+nv}{k}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                  \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{even? }\PY{n+nv}{f}\PY{p}{)}
+                      \PY{p}{(}\PY{n+nb}{cons }\PY{n+nv}{f} \PY{p}{(}\PY{n+nf}{next} \PY{p}{(}\PY{n+nb}{+ }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                      \PY{p}{(}\PY{n+nf}{next} \PY{p}{(}\PY{n+nb}{+ }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+          \PY{p}{(}\PY{n+nf}{next} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+        
+        \PY{c+c1}{;(print (even\PYZhy{}fibs 10))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{predicate} \PY{n+nv}{sequence}\PY{p}{)}
+          \PY{p}{(}\PY{k}{cond }\PY{p}{(}\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{sequence}\PY{p}{)} \PY{n+nv}{nil}\PY{p}{)}
+                \PY{p}{(}\PY{p}{(}\PY{n+nf}{predicate} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nb}{cons }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{sequence}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{predicate} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                \PY{p}{(}\PY{k}{else }\PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{predicate} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{odd?} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}4}]:} (1 3 5)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}5}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{op} \PY{n+nv}{initial} \PY{n+nv}{sequence}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{sequence}\PY{p}{)}
+              \PY{n+nv}{initial}
+              \PY{p}{(}\PY{n+nf}{op} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{sequence}\PY{p}{)}
+                  \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{op} \PY{n+nv}{initial} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}6}]:} \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{+} \PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{8} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}6}]:} 45
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{*} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}7}]:} 120
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{cons} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{0}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{8} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}8}]:} (1 2 3 4 5 6 7 8 9 0)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{n+nv}{low} \PY{n+nv}{high}\PY{p}{)}
+          \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{\PYZgt{} }\PY{n+nv}{low} \PY{n+nv}{high}\PY{p}{)}
+              \PY{n+nv}{nil}
+              \PY{p}{(}\PY{n+nb}{cons }\PY{n+nv}{low} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{p}{(}\PY{n+nb}{+ }\PY{n+nv}{low} \PY{l+m+mi}{1}\PY{p}{)} \PY{n+nv}{high}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}10}]:} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{2} \PY{l+m+mi}{7}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}10}]:} (2 3 4 5 6 7)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}11}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}tree} \PY{n+nv}{tree}\PY{p}{)}
+           \PY{p}{(}\PY{k}{cond }\PY{p}{(}\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{tree}\PY{p}{)} \PY{n+nv}{nil}\PY{p}{)}
+                 \PY{p}{(}\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{pair? }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{k}{else }\PY{p}{(}\PY{n+nb}{append }\PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}
+                               \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}tree} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{l+m+mi}{5}\PY{p}{)} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{8} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}11}]:} (0 1 2 3 4 5 6 7 8 9)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}12}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{sum\PYZhy{}odd\PYZhy{}squares} \PY{n+nv}{tree}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{+} \PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{square} \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{odd?} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{n+nv}{tree}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{even\PYZhy{}fibs} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{cons} \PY{n+nv}{nil} \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{even?} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{fib} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{0} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}13}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{list\PYZhy{}fib\PYZhy{}squares} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} 
+            \PY{n+nv}{cons}
+            \PY{n+nv}{nil} 
+            \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{square} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{fib} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{0} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{list\PYZhy{}fib\PYZhy{}squares} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}13}]:} (0 1 1 4 9 25 64 169 441 1156 3025)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}14}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{product\PYZhy{}of\PYZhy{}squares\PYZhy{}of\PYZhy{}odd\PYZhy{}elements} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{*} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{square} \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{odd?} \PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{product\PYZhy{}of\PYZhy{}squares\PYZhy{}of\PYZhy{}odd\PYZhy{}elements} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}14}]:} 225
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}15}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{salary\PYZhy{}of\PYZhy{}highest\PYZhy{}paid\PYZhy{}programmer} \PY{n+nv}{records}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{max} \PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{salary} \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{programmer?} \PY{n+nv}{records}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \subsubsection{Exercise 2.33}\label{exercise-2.33}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}16}]:} \PY{c+c1}{; map}
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{my\PYZus{}map} \PY{n+nv}{p} \PY{n+nv}{seq}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x} \PY{n+nv}{y}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons }\PY{p}{(}\PY{n+nf}{p} \PY{n+nv}{x}\PY{p}{)} \PY{n+nv}{y}\PY{p}{)}\PY{p}{)} \PY{n+nv}{nil} \PY{n+nv}{seq}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{my\PYZus{}map} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{* }\PY{n+nv}{x} \PY{n+nv}{x}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}16}]:} (1 4 9)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}17}]:} \PY{c+c1}{; append}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nb}{append }\PY{n+nv}{seq1} \PY{n+nv}{seq2}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{cons} \PY{n+nv}{seq2} \PY{n+nv}{seq1}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{append }\PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}17}]:} (1 2 3 4 5)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}18}]:} \PY{c+c1}{; length}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nb}{length }\PY{n+nv}{seq}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x} \PY{n+nv}{y}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+ }\PY{l+m+mi}{1} \PY{n+nv}{y}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0} \PY{n+nv}{seq}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nb}{length }\PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6} \PY{l+m+mi}{7} \PY{l+m+mi}{8} \PY{l+m+mi}{9}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}18}]:} 9
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}19}]:} \PY{c+c1}{; list/scheme は最後に評価した値を返す。}
+         \PY{c+c1}{; マチガエカイトウ}
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{bad\PYZhy{}length} \PY{n+nv}{seq}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x} \PY{n+nv}{y}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+ }\PY{l+m+mi}{1} \PY{n+nv}{x}\PY{p}{)}\PY{p}{)} \PY{l+m+mi}{0} \PY{n+nv}{seq}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{print} \PY{p}{(}\PY{n+nf}{bad\PYZhy{}length} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{2} \PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nf}{print} \PY{p}{(}\PY{n+nf}{bad\PYZhy{}length} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{3} \PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{n+nf}{print} \PY{p}{(}\PY{n+nf}{bad\PYZhy{}length} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{4} \PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+3
+4
+5
+
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.34}\label{exercise-2.34}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}20}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{horner\PYZhy{}eval} \PY{n+nv}{x} \PY{n+nv}{coefficient\PYZhy{}sequence}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{this\PYZhy{}coeff} \PY{n+nv}{higher\PYZhy{}therms}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nb}{* }\PY{n+nv}{higher\PYZhy{}therms} \PY{n+nv}{x}\PY{p}{)} \PY{n+nv}{this\PYZhy{}coeff}\PY{p}{)}\PY{p}{)}
+                       \PY{l+m+mi}{0}
+                         \PY{n+nv}{coefficient\PYZhy{}sequence}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}21}]:} \PY{p}{(}\PY{n+nf}{horner\PYZhy{}eval} \PY{l+m+mi}{2} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{3} \PY{l+m+mi}{0} \PY{l+m+mi}{5} \PY{l+m+mi}{0} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}21}]:} 79
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.35}\label{exercise-2.35}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}22}]:} \PY{p}{(}\PY{k}{define }\PY{n+nv}{leaves} \PY{p}{(}\PY{n+nb}{cons }\PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{3} \PY{l+m+mi}{4}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{5} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{6} \PY{l+m+mi}{7}\PY{p}{)} \PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{n+nv}{leaves}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}22}]:} ((1 2) (3 4) (5 (6 7) 8))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}23}]:} \PY{c+c1}{;(define (count\PYZhy{}leaves t)}
+         \PY{c+c1}{;  (accumulate (lambda (x y) (+ 1 y)) 0 (enumerate\PYZhy{}tree t)))}
+         
+         \PY{c+c1}{;???????????????????}
+         
+         \PY{c+c1}{; length}
+         \PY{c+c1}{;(define (length seq)}
+         \PY{c+c1}{;  (accumulate (lambda (x y) (+ 1 y)) 0 seq))}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{count\PYZhy{}leaves} \PY{n+nv}{t}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{pair? }\PY{n+nv}{t}\PY{p}{)}\PY{p}{)}
+               \PY{l+m+mi}{1}
+               \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{+} \PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{count\PYZhy{}leaves} \PY{n+nv}{t}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}24}]:} \PY{p}{(}\PY{n+nf}{count\PYZhy{}leaves} \PY{n+nv}{leaves}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}24}]:} 8
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.36}\label{exercise-2.36}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}25}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{accumulate\PYZhy{}n} \PY{n+nv}{op} \PY{n+nv}{init} \PY{n+nv}{seqs}\PY{p}{)}
+            \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{seqs}\PY{p}{)}\PY{p}{)}
+                \PY{n+nv}{null}
+                \PY{p}{(}\PY{n+nb}{cons }\PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{op} \PY{n+nv}{init} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{car} \PY{n+nv}{seqs}\PY{p}{)}\PY{p}{)}
+                      \PY{p}{(}\PY{n+nf}{accumulate\PYZhy{}n} \PY{n+nv}{op} \PY{n+nv}{init} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{cdr} \PY{n+nv}{seqs}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}26}]:} \PY{p}{(}\PY{k}{define }\PY{n+nv}{seqs1} \PY{p}{(}\PY{n+nb}{list }\PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{4} \PY{l+m+mi}{5} \PY{l+m+mi}{6}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{7} \PY{l+m+mi}{8} \PY{l+m+mi}{9}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{10} \PY{l+m+mi}{11} \PY{l+m+mi}{12}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}27}]:} \PY{p}{(}\PY{n+nf}{accumulate\PYZhy{}n} \PY{n+nv}{+} \PY{l+m+mi}{0} \PY{n+nv}{seqs1}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Traceback (most recent call last):
+  File "In [27]", line 1, col 1, in 'accumulate-n'
+  File "In [25]", line 5, col 14, in 'accumulate-n'
+  File "In [25]", line 5, col 14, in 'accumulate-n'
+  File "In [25]", line 5, col 14, in 'accumulate-n'
+  File "In [25]", line 3, col 8
+RunTimeError: unbound variable 'null'
+
+
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.37}\label{exercise-2.37}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}28}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{dot\PYZhy{}product} \PY{n+nv}{v} \PY{n+nv}{w}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{+} \PY{l+m+mi}{0} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{*} \PY{n+nv}{v} \PY{n+nv}{w}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;(dot\PYZhy{}product (list 1 2 3) (list 1 2 3))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}29}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{matrix\PYZhy{}*\PYZhy{}vector} \PY{n+nv}{m} \PY{n+nv}{v}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{*} \PY{n+nv}{x} \PY{n+nv}{v}\PY{p}{)}\PY{p}{)} \PY{n+nv}{m}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;(matrix\PYZhy{}*\PYZhy{}vector (list (list 1 1) (list 2 2)) (list 1 2))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}30}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{transpose} \PY{n+nv}{mtrx}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate\PYZhy{}n} \PY{n+nv}{cons} \PY{n+nv}{nil} \PY{n+nv}{mtrx}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;(transpose (list (list 1 2 3) (list 4 5 6) (list 7 8 9)))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}31}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{matrix\PYZhy{}*\PYZhy{}matrix} \PY{n+nv}{m} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{k}{let }\PY{p}{(}\PY{p}{(}\PY{n+nf}{cols} \PY{p}{(}\PY{n+nf}{transpose} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)}  \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{y}\PY{p}{)} \PY{p}{(}\PY{n+nf}{dot\PYZhy{}product} \PY{n+nv}{y} \PY{n+nv}{x}\PY{p}{)}\PY{p}{)} \PY{n+nv}{cols}\PY{p}{)}\PY{p}{)} \PY{n+nv}{m}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;(matrix\PYZhy{}*\PYZhy{}matrix (list (list 1 2) (list 3 4)) (list (list 1 1) (list 2 2)))}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{+} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{4}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}32}]:} (2 8)
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.38}\label{exercise-2.38}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{fold\PYZhy{}right} \PY{n+nv}{op} \PY{n+nv}{initial} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{sequence}\PY{p}{)}
+               \PY{n+nv}{initial}
+               \PY{p}{(}\PY{n+nf}{op} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{sequence}\PY{p}{)}
+                   \PY{p}{(}\PY{n+nf}{fold\PYZhy{}right} \PY{n+nv}{op} \PY{n+nv}{initial} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{fold\PYZhy{}left} \PY{n+nv}{op} \PY{n+nv}{initial} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{iter} \PY{n+nv}{result} \PY{n+nv}{rest}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{rest}\PY{p}{)}
+                 \PY{n+nv}{result}
+                 \PY{p}{(}\PY{n+nf}{iter} \PY{p}{(}\PY{n+nf}{op} \PY{n+nv}{result} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{rest}\PY{p}{)}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{rest}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{iter} \PY{n+nv}{initial} \PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}34}]:} \PY{p}{(}\PY{n+nf}{fold\PYZhy{}right} \PY{n+nv}{/} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; (/ 1 (/ 2 (/ 3 1)))}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}34}]:} 3/2
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}35}]:} \PY{p}{(}\PY{n+nf}{fold\PYZhy{}left} \PY{n+nv}{/} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)} \PY{c+c1}{; (/ (/ (/ 1 1) 2) 3)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}35}]:} 1/6
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}36}]:} \PY{p}{(}\PY{n+nf}{fold\PYZhy{}right} \PY{n+nv}{list} \PY{n+nv}{nil} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}36}]:} (1 (2 (3 ())))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}37}]:} \PY{p}{(}\PY{n+nf}{fold\PYZhy{}left} \PY{n+nv}{list} \PY{n+nv}{nil} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{2} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}37}]:} (((() 1) 2) 3)
+\end{Verbatim}
+        
+    op に必要な条件: 可換な演算であること
+
+    \subsubsection{Exercise 2.39}\label{exercise-2.39}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}38}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{reverse\PYZhy{}r} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{fold\PYZhy{}right} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x} \PY{n+nv}{y}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append }\PY{n+nv}{y} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{n+nv}{nil} \PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{reverse\PYZhy{}r} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{4} \PY{l+m+mi}{9} \PY{l+m+mi}{16} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}38}]:} (25 16 9 4 1)
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}39}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{reverse\PYZhy{}l} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{fold\PYZhy{}left} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x} \PY{n+nv}{y}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons }\PY{n+nv}{y} \PY{n+nv}{x}\PY{p}{)}\PY{p}{)} \PY{n+nv}{nil} \PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{n+nf}{reverse\PYZhy{}l} \PY{p}{(}\PY{n+nb}{list }\PY{l+m+mi}{1} \PY{l+m+mi}{4} \PY{l+m+mi}{9} \PY{l+m+mi}{16} \PY{l+m+mi}{25}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}39}]:} (25 16 9 4 1)
+\end{Verbatim}
+        
+    \subsection{Nested Mappings}\label{nested-mappings}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}40}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{smallest\PYZhy{}divisor} \PY{n+nv}{n}\PY{p}{)} \PY{p}{(}\PY{n+nf}{find\PYZhy{}divisor} \PY{n+nv}{n} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{find\PYZhy{}divisor} \PY{n+nv}{n} \PY{n+nv}{test\PYZhy{}divisor}\PY{p}{)}
+         \PY{p}{(}\PY{k}{cond }\PY{p}{(}\PY{p}{(}\PY{n+nb}{\PYZgt{} }\PY{p}{(}\PY{n+nf}{square} \PY{n+nv}{test\PYZhy{}divisor}\PY{p}{)} \PY{n+nv}{n}\PY{p}{)} \PY{n+nv}{n}\PY{p}{)}
+         \PY{p}{(}\PY{p}{(}\PY{n+nf}{divides?} \PY{n+nv}{test\PYZhy{}divisor} \PY{n+nv}{n}\PY{p}{)} \PY{n+nv}{test\PYZhy{}divisor}\PY{p}{)} \PY{p}{(}\PY{k}{else }\PY{p}{(}\PY{n+nf}{find\PYZhy{}divisor} \PY{n+nv}{n} \PY{p}{(}\PY{n+nb}{+ }\PY{n+nv}{test\PYZhy{}divisor} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{divides?} \PY{n+nv}{a} \PY{n+nv}{b}\PY{p}{)} \PY{p}{(}\PY{n+nb}{= }\PY{p}{(}\PY{n+nb}{remainder }\PY{n+nv}{b} \PY{n+nv}{a}\PY{p}{)} \PY{l+m+mi}{0}\PY{p}{)}\PY{p}{)}
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{prime?} \PY{n+nv}{n}\PY{p}{)}
+         \PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{n} \PY{p}{(}\PY{n+nf}{smallest\PYZhy{}divisor} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;;;}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}41}]:} \PY{c+c1}{;(define n 6)}
+         \PY{p}{(}\PY{n+nf}{accumulate}
+          \PY{n+nv}{append} \PY{n+nv}{nil} \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{i}\PY{p}{)}
+                             \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{j}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{i} \PY{n+nv}{j}\PY{p}{)}\PY{p}{)}
+                                  \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{i} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                           \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Traceback (most recent call last):
+  File "In [41]", line 6, col 41
+RunTimeError: unbound variable 'n'
+
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}42}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{flatmap} \PY{n+nv}{proc} \PY{n+nv}{seq}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{append} \PY{n+nv}{nil} \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{proc} \PY{n+nv}{seq}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{prime\PYZhy{}sum?} \PY{n+nv}{pair}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{parime?} \PY{p}{(}\PY{n+nb}{+ }\PY{n+nv}{car} \PY{n+nv}{pair} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{pair}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{make\PYZhy{}pair\PYZhy{}sum} \PY{n+nv}{pair}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{list }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{pair}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{pair}\PY{p}{)} \PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{pair}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{pair}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}43}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{prime\PYZhy{}sum\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{map }\PY{n+nv}{make\PYZhy{}pair\PYZhy{}sum}
+                \PY{p}{(}\PY{n+nf}{filter} \PY{n+nv}{prime\PYZhy{}sum?} \PY{p}{(}\PY{n+nf}{flatmap}
+                                    \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{i}\PY{p}{)}
+                                      \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{j}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{i} \PY{n+nv}{j}\PY{p}{)}\PY{p}{)}
+                                           \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{i} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                                    \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{permutations} \PY{n+nv}{s}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{s}\PY{p}{)}
+               \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{nil}\PY{p}{)}
+               \PY{p}{(}\PY{n+nf}{flatmap} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{p}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cons }\PY{n+nv}{x} \PY{n+nv}{p}\PY{p}{)}\PY{p}{)}
+                               \PY{p}{(}\PY{n+nf}{permutations} \PY{p}{(}\PY{n+nf}{remove} \PY{n+nv}{x} \PY{n+nv}{s}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                        \PY{n+nv}{s}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{remove} \PY{n+nv}{item} \PY{n+nv}{sequence}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{filter} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{X}\PY{p}{)} \PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{x} \PY{n+nv}{item}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{n+nv}{sequence}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{p}{(}\PY{n+nf}{prime\PYZhy{}sum\PYZhy{}pairs} \PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Traceback (most recent call last):
+  File "In [44]", line 1, col 1, in 'prime-sum-pairs'
+  File "In [43]", line 3, col 8, in 'filter'
+  File "In [3]", line 3, col 10, in 'predicate'
+  File "In [42]", line 5, col 12, in '+'
+UnhandledException: unsupported operand type(s) for +: 'int' and 'cons'
+
+
+    \end{Verbatim}
+
+    \subsubsection{Exercise 2.40}\label{exercise-2.40}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}45}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{unique\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{append} \PY{n+nv}{nil}
+                       \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{i}\PY{p}{)} 
+                              \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{j}\PY{p}{)} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{i} \PY{n+nv}{j}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{i} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                            \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}46}]:} \PY{p}{(}\PY{n+nf}{unique\PYZhy{}pairs} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}46}]:} ((2 1) (3 1) (3 2) (4 1) (4 2) (4 3) (5 1) (5 2) (5 3) (5 4))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}47}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{prime\PYZhy{}sum\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{filter} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)} \PY{p}{(}\PY{n+nf}{prime?} \PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{unique\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}48}]:} \PY{p}{(}\PY{n+nf}{prime\PYZhy{}sum\PYZhy{}pairs} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}48}]:} ((2 1) (3 2) (4 1) (4 3) (5 2))
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.41}\label{exercise-2.41}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{isSumS} \PY{n+nv}{s} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{filter} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{x}\PY{p}{)} \PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{s} \PY{p}{(}\PY{n+nb}{+ }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{x}\PY{p}{)}
+                                       \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{x}\PY{p}{)}
+                                       \PY{p}{(}\PY{n+nb}{cadr }\PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{x}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{trico} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{c+c1}{;(define (trico n)}
+         \PY{c+c1}{;  (filter isntNil? }
+         \PY{c+c1}{;          (accumulate append nil}
+         \PY{c+c1}{;              (accumulate (lambda (i)}
+         \PY{c+c1}{;                     (map (lambda (j)}
+         \PY{c+c1}{;                            (map (lambda (k) (list i j k)) (enumerate\PYZhy{}interval 1 (\PYZhy{} j 1))))}
+         \PY{c+c1}{;                            (enumerate\PYZhy{}interval 1 (\PYZhy{} i 1))))}
+         \PY{c+c1}{;                   (enumerate\PYZhy{}interval 1 n)))))}
+         \PY{c+c1}{;}
+         
+         \PY{c+c1}{; 1. }
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{trico} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{accumulate} \PY{n+nv}{append} \PY{n+nv}{nil}
+                       \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{i}\PY{p}{)} 
+                              \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{j}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append }\PY{n+nv}{i} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{j}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{i}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                            \PY{p}{(}\PY{n+nf}{unique\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{; 2.}
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{trico} \PY{n+nv}{n}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{flatmap} \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{i}\PY{p}{)}
+                       \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{j}\PY{p}{)} \PY{p}{(}\PY{n+nb}{append }\PY{n+nv}{i} \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{j}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{i}\PY{p}{)} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nf}{unique\PYZhy{}pairs} \PY{n+nv}{n}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}51}]:} \PY{p}{(}\PY{n+nf}{trico} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}51}]:} ((3 2 1) (4 2 1) (4 3 1) (4 3 2) (5 2 1) (5 3 1) (5 3 2) (5 4 1) (5 4 2) (5 4 3))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}52}]:} \PY{p}{(}\PY{n+nf}{isSumS} \PY{l+m+mi}{20} \PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}52}]:} ((8 7 5) (9 6 5) (9 7 4) (9 8 3) (10 6 4) (10 7 3) (10 8 2) (10 9 1))
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.42}\label{exercise-2.42}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}53}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{queens} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{n+nv}{k}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{k} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{empty\PYZhy{}board}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nf}{filter}
+                  \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{positioin}\PY{p}{)} \PY{p}{(}\PY{n+nf}{safe?} \PY{n+nv}{k} \PY{n+nv}{positioin}\PY{p}{)}\PY{p}{)}
+                  \PY{p}{(}\PY{n+nf}{flatmap}
+                   \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{rest\PYZhy{}of\PYZhy{}queens}\PY{p}{)}
+                     \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{new\PYZhy{}row}\PY{p}{)}
+                            \PY{p}{(}\PY{n+nf}{adjoin\PYZhy{}position}
+                             \PY{n+nv}{new\PYZhy{}row} \PY{n+nv}{k} \PY{n+nv}{rest\PYZhy{}of\PYZhy{}queens}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}54}]:} \PY{p}{(}\PY{k}{define }\PY{n+nv}{empty\PYZhy{}board} \PY{n+nv}{nil}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}55}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{adjoin\PYZhy{}position} \PY{n+nv}{new\PYZhy{}row} \PY{n+nv}{k} \PY{n+nv}{rest\PYZhy{}of\PYZhy{}qs}\PY{p}{)}
+           \PY{p}{(}\PY{n+nb}{cons }\PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{new\PYZhy{}row} \PY{n+nv}{k}\PY{p}{)} \PY{n+nv}{rest\PYZhy{}of\PYZhy{}qs}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}56}]:} \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{And} \PY{n+nv}{bs}\PY{p}{)}
+           \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{null? }\PY{n+nv}{bs}\PY{p}{)}
+               \PY{n+no}{\PYZsh{}t}
+               \PY{p}{(}\PY{k}{and }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{bs}\PY{p}{)}
+                    \PY{p}{(}\PY{n+nf}{And} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{bs}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{safe?} \PY{n+nv}{k} \PY{n+nv}{position}\PY{p}{)}
+           \PY{p}{(}\PY{k}{let }\PY{p}{(}\PY{p}{(}\PY{n+nf}{p} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{position}\PY{p}{)}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nf}{ps} \PY{p}{(}\PY{n+nb}{cdr }\PY{n+nv}{position}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+             \PY{p}{(}\PY{n+nf}{And} \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{pos\PYZhy{}q}\PY{p}{)} \PY{p}{(}\PY{k}{and }\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{= }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{p}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{pos\PYZhy{}q}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                                         　　\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{= }\PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{p}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{pos\PYZhy{}q}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                                         　　\PY{p}{(}\PY{n+nb}{not }\PY{p}{(}\PY{n+nb}{= }\PY{l+m+mi}{1} \PY{p}{(}\PY{n+nb}{/ }\PY{p}{(}\PY{n+nb}{abs }\PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{p}\PY{p}{)} \PY{p}{(}\PY{n+nb}{car }\PY{n+nv}{pos\PYZhy{}q}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                                                      \PY{p}{(}\PY{n+nb}{abs }\PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{p}\PY{p}{)} \PY{p}{(}\PY{n+nb}{cadr }\PY{n+nv}{pos\PYZhy{}q}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)} \PY{n+nv}{ps}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+         
+         \PY{c+c1}{;; (k , m) が　各　(x, y) \PYZbs{}in position}
+         \PY{c+c1}{;; と　k != x \PYZam{}\PYZam{} m != y (タテ・ヨコ)}
+         \PY{c+c1}{;; かつ　abs(k\PYZhy{}x)/abs(m\PYZhy{}y) != 1　（ナナメ）}
+         \PY{c+c1}{;; をチェックすれば良い（？}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}57}]:} \PY{p}{(}\PY{n+nf}{queens} \PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}57}]:} (((4 5) (2 4) (5 3) (3 2) (1 1)) ((3 5) (5 4) (2 3) (4 2) (1 1)) ((5 5) (3 4) (1 3) (4 2) (2 1)) ((4 5) (1 4) (3 3) (5 2) (2 1)) ((5 5) (2 4) (4 3) (1 2) (3 1)) ((1 5) (4 4) (2 3) (5 2) (3 1)) ((2 5) (5 4) (3 3) (1 2) (4 1)) ((1 5) (3 4) (5 3) (2 2) (4 1)) ((3 5) (1 4) (4 3) (2 2) (5 1)) ((2 5) (4 4) (1 3) (3 2) (5 1)))
+\end{Verbatim}
+        
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}58}]:} \PY{p}{(}\PY{n+nf}{queens} \PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}58}]:} (((3 4) (1 3) (4 2) (2 1)) ((2 4) (4 3) (1 2) (3 1)))
+\end{Verbatim}
+        
+    \subsubsection{Exercise 2.43}\label{exercise-2.43}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{c+c1}{; Louis Reasoner\PYZsq{}s 8\PYZhy{}queen}
+         
+         \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{lr\PYZhy{}queens} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}
+           \PY{p}{(}\PY{k}{define }\PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{n+nv}{k}\PY{p}{)}
+             \PY{p}{(}\PY{k}{if }\PY{p}{(}\PY{n+nb}{= }\PY{n+nv}{k} \PY{l+m+mi}{0}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nb}{list }\PY{n+nv}{empty\PYZhy{}board}\PY{p}{)}
+                 \PY{p}{(}\PY{n+nf}{filter}
+                  \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{positioin}\PY{p}{)} \PY{p}{(}\PY{n+nf}{safe?} \PY{n+nv}{k} \PY{n+nv}{positioin}\PY{p}{)}\PY{p}{)}
+                  \PY{p}{(}\PY{n+nf}{flatmap}
+                   \PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{new\PYZhy{}row}\PY{p}{)}
+                     \PY{p}{(}\PY{n+nb}{map }\PY{p}{(}\PY{k}{lambda }\PY{p}{(}\PY{n+nf}{rest\PYZhy{}of\PYZhy{}queens}\PY{p}{)}
+                            \PY{p}{(}\PY{n+nf}{adjoin\PYZhy{}position}
+                             \PY{n+nv}{new\PYZhy{}row} \PY{n+nv}{k} \PY{n+nv}{rest\PYZhy{}of\PYZhy{}queens}\PY{p}{)}\PY{p}{)}
+                          \PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{p}{(}\PY{n+nb}{\PYZhy{} }\PY{n+nv}{k} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+                   \PY{p}{(}\PY{n+nf}{enumerate\PYZhy{}interval} \PY{l+m+mi}{1} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+           \PY{p}{(}\PY{n+nf}{queen\PYZhy{}cols} \PY{n+nv}{board\PYZhy{}size}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{p}{(}\PY{n+nf}{lr\PYZhy{}queens} \PY{l+m+mi}{4}\PY{p}{)}
+\end{Verbatim}
+
+            \begin{Verbatim}[commandchars=\\\{\}]
+{\color{outcolor}Out[{\color{outcolor}60}]:} (((2 4) (4 3) (1 2) (3 1)) ((3 4) (1 3) (4 2) (2 1)))
+\end{Verbatim}
+        
+    \begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{;queen}
+
+         \NormalTok{(flatmap}
+          \NormalTok{(}\KeywordTok{lambda} \NormalTok{(rest-of-queens)}
+            \NormalTok{(map (}\KeywordTok{lambda} \NormalTok{(new-row)}
+                   \NormalTok{(adjoin-position}
+                    \NormalTok{new-row k rest-of-queens))}
+                 \NormalTok{(enumerate-interval }\DecValTok{1} \NormalTok{board-size)))}
+          \NormalTok{(queen-cols (}\KeywordTok{-} \NormalTok{k }\DecValTok{1}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{;lr's slow queen}
+
+         \NormalTok{(flatmap}
+          \NormalTok{(}\KeywordTok{lambda} \NormalTok{(new-row)}
+            \NormalTok{(map (}\KeywordTok{lambda} \NormalTok{(rest-of-queens)}
+                   \NormalTok{(adjoin-position}
+                    \NormalTok{new-row k rest-of-queens))}
+                 \NormalTok{(queen-cols (}\KeywordTok{-} \NormalTok{k }\DecValTok{1}\NormalTok{))))}
+          \NormalTok{(enumerate-interval }\DecValTok{1} \NormalTok{board-size))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{\linethickness}\end{center}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} 
+\end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
