@@ -56,8 +56,11 @@
 (define (angle z) (apply-generic 'angle z))
 (define (equ? x y) (apply-generic 'equ? x y))
 (define (=zero? x) (apply-generic '=zero? x))
-(define (raise x) (apply-generic 'raise x))
-(define (project x) (apply-generic 'project x))
+;(define (raise x) (apply-generic 'raise x))
+(define (raise x) ((get 'raise (type-tag x)) (contents x)))
+;(define (project x) (apply-generic 'project x))
+(define (project x) ((get 'project (type-tag x)) (contents x)))
+  
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -136,14 +139,14 @@
   ; ex 2.83
   (define (raise->real x) ; rational -> real
     ((get 'make 'real) (* (/ (numer x) (denom x )) 1.0)))
-  (put 'raise '(rational)
+  (put 'raise 'rational
        (lambda (x) (raise->real x)))
   ; ex 2.85
   (define (project->int x)
     (let ((n (numer x))
           (d (denom x)))
       ((get 'make 'integer) (inexact->exact (floor (/ n d))))))
-  (put 'project '(rational)
+  (put 'project 'rational
        (lambda (x) (project->int x)))
   'done)
 (define (make-rational n d)
@@ -265,7 +268,7 @@
   ; ex 2.85
   (define (project->real x)
       ((get 'make 'real) (real-part x)))
-  (put 'project '(complex)
+  (put 'project 'complex
        (lambda (x) (project->real x)))
   'done)
 (define (make-complex-from-real-imag x y)
@@ -287,7 +290,7 @@
        (lambda (x y) (tag (/ x y))))
   (put 'make 'integer (lambda (x) (tag x)))
   (put '=zero? '(integer) (lambda (x) (= x 0)))
-  (put 'raise '(integer) (lambda (x) ((get 'make 'rational) x 1)))
+  (put 'raise 'integer (lambda (x) ((get 'make 'rational) x 1)))
   'done)
 (define (install-real-package)
   (define (tag x) (attach-tag 'real x))
@@ -301,13 +304,13 @@
        (lambda (x y) (tag (/ x y))))
   (put 'make 'real (lambda (x) (tag (* 1.0 x))))
   (put '=zero? '(real) (lambda (x) (= x 0)))
-  (put 'raise '(real)
+  (put 'raise 'real
        (lambda (x) ((get 'make-from-real-imag 'complex) x 0)))
   (define (project->rational x)
     (let ((n (numerator (inexact->exact x)))
           (d (denominator (inexact->exact x))))
     ((get 'make 'rational) n d)))
-  (put 'project '(real)
+  (put 'project 'real
        (lambda (x) (project->rational x)))
   'done)
 
@@ -323,16 +326,20 @@
 
 ;tag/content
 (define (attach-tag tag contents)
-  (cons tag contents))
+  (if (eq? tag 'scheme-number)
+      contents
+      (cons tag contents)))
+
 (define (type-tag datum)
   ;(print datum)
-  (if (pair? datum)
-      (car datum)
-      (error "Bad tagged datum: TYPE-TAG" datum)))
-(define (contents dataum)
-  (if (pair? dataum)
-      (cdr dataum)
-      (error "Bad tagged dataum: CONTENTS" dataum)))
+  (cond ((number? datum) 'scheme-number)
+        ((pair? datum) (car datum))
+        (else (error "Bad tagged datum: TYPE-TAG" datum))))
+
+(define (contents datum)
+  (cond ((number? datum) datum)
+        ((pair? datum) (cdr datum))
+        (else (error "Bad tagged dataum: CONTENTS" datum))))
 
 
 
@@ -345,6 +352,7 @@
   (iter t1 t2 type-tower))
 
 (define type-tower '(complex real rational integer))
+
 (define (apply-generic op . args)
   (let ((type-tags (map type-tag args)))
     (let ((proc (get op type-tags)))
@@ -359,6 +367,7 @@
                     (apply-generic op a1 (raise a2))
                     (apply-generic op (raise a1) a2)))
               (error "No method for these types" (list op type-tags)))))))
+
 ; MEMO: drop の実装が汚いのであとで直す. (if文)
 (define (drop x)
   (if (not (eq? (type-tag x) 'integer))
@@ -373,12 +382,12 @@
 
 ; MEMO: dropの実装は取り敢えずできたので後は apply-generic. (drop を付け足しても動かない)
 ;(define (apply-generic op . args)
-;  (display op)
+;  ;(display op)
 ;  ;(print args)
 ;  (let ((type-tags (map type-tag args)))
 ;    (let ((proc (get op type-tags)))
 ;      (if proc
-;          (if (or (eq? op 'project) (eq? op 'raise) (eq? 'op 'equ?))
+;          (if (or (eq? op 'project) (eq? op 'raise) (eq? op 'equ?))
 ;              (apply proc (map contents args))
 ;              (drop (apply proc (map contents args))))
 ;          (if (= (length args) 2)
@@ -395,7 +404,7 @@
 (define r (make-rational 3 2))
 (define rl (make-real 2.222))
 (define c (make-complex-from-real-imag 3 2))
-(print "print 'i', 'r', 'rl', and 'c'") (newline)
+(print "print 'i', 'r', 'rl', and 'c'")
 (print i)
 (print r)
 (print rl)
@@ -404,7 +413,7 @@
 (print (raise i))
 (print (raise r))
 (print (raise rl))
-;(equ? (make-rational 1 1) (make-rational 1 1))
+(equ? (make-rational 1 1) (make-rational 1 1))
 (print "print add, sub, mul & div")
 (print (add i r))
 (print (sub i rl))
@@ -421,7 +430,8 @@
 (print (drop (make-real 1.0)))
 (print (add (make-real 1.0) (make-complex-from-real-imag 3 0)))
 
-
+(print "DROOOOOP")
+(print (make-complex-from-real-imag 3 0))
 
 ; ex 2.86
 (define (cube x) (* x x x))
@@ -431,7 +441,7 @@
       angle
       (p (sine (/ angle 3.0)))))
 
-
+(print "HOGE")
 (define z1 (make-complex-from-real-imag (make-rational 3 2) (make-rational 1 2)))
 (define z2 (make-complex-from-mag-ang (make-real 2.3) (make-rational 2 3)))
 (print z1)
@@ -456,7 +466,7 @@
         (cons term term-list)))
   (define (the-empty-termlist) '())
   (define (first-term term-list) (car term-list))
-  (define (rest-terms ter-list) (cdr term-list))
+  (define (rest-terms term-list) (cdr term-list))
   (define (empty-termlist? term-list) (null? term-list))
   (define (make-term order coeff) (list order coeff))
   (define (order term) (car term))
@@ -513,21 +523,51 @@
        (lambda (var terms) (tag (make-poly var terms))))
   ; 2.87
   ;(put '=zero? 'polynomial
-  ;     (lambda (p) (eq? '() (term-list p))))
+  ;     (lambda (t) (eq? 0 (coeff t))))
+  ;  (define (=zero?-poly p)
+  ;    (let ((ts (term-list p)))
+  ;      (cond ((null? t) #t)
+  ;            (
   ; 2.88
-  (put 'div '(polynomial polynomial)
+  (define (minus1 p)
+    (make-poly (variable p) '((0 -1))))
+  (put 'sub '(polynomial polynomial)
        (lambda (p1 p2) (tag (add-poly p1
-                                      (mul-poly (- 1) p2)))))
+                                      (mul-poly (minus1 p2) p2)))))
   'done)
+
 (install-polynomial-package)
+
 (define (make-polynomial var terms)
   ((get 'make 'polynomial) var terms))
 
 
+; Test
+(define px (make-polynomial 'x '((1 1))))
+;(print px)
+
+(define py (make-polynomial 'y '((1 1))))
+;(print py)
+
 (define p1 (make-polynomial 'x '((2 1) (1 2) (0 1))))
-(print p1)
+;(print p1)
 
 (define p2 (make-polynomial 'x '((2 1) (1 4) (0 2))))
-(print p2)
+;(print p2)
 
+(define m1 (make-polynomial 'x '((0 -1))))
+;(print m1)
+
+;(print (add p1 p2))
 ;(print (mul p1 p2))
+;(print (sub p2 p1))
+
+(define ip1 (make-polynomial 'x '((1 (real . 1.111)) (0 (integer . 1)))))
+(define ip2 (make-polynomial 'x '((1 (rational 3 . 2)) (0 (integer . 3)))))
+;(print (add ip1 ip2))
+;(print (mul ip1 ip2))
+
+
+;(define p3 (make-polynomial 'x '((2 (polynomial y (1 1))) (1 (polynomial y (1 1))) (0 1))))
+;(print p3)
+;(add p1 p3)
