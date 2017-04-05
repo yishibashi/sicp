@@ -1,7 +1,12 @@
 import           Complex
 import           Rational
 
-main = do print "Rational <op> Rational"
+main = do print "Rational <op> Double"
+          print $ (makeRat 2 7) + 1.23
+          print $ (makeRat 2 7) - 1.23
+          print $ (makeRat 2 7) * 1.23
+          print $ (makeRat 2 7) / 1.23
+          print "Rational <op> Rational"
           print $ ((makeRat 1 1) + (makeRat 3 2))
           print $ ((makeRat 1 1) - (makeRat 3 2))
           print $ ((makeRat 1 1) * (makeRat 3 2))
