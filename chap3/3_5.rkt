@@ -1,0 +1,177 @@
+#lang planet neil/sicp
+(require racket/stream)
+; 3.5 STREAMS
+
+; 3.5.1 Streams Are Delayed Lists
+
+(define (stream-ref s n)
+  (if (= n 0)
+    (stream-car s)
+    (stream-ref (stream-cdr s) (- n 1))))
+(define (stream-map proc s)
+  (if (stream-null? s)
+    the-empty-stream
+    (cons-stream (proc (stream-car s))
+                 (stream-map proc (stream-cdr s)))))
+(define (stream-for-each proc s)
+  (if (stream-null? s)
+    'done
+    (begin (proc (stream-car s))
+           (stream-for-each proc (stream-cdr s)))))
+
+(define (display-stream s)
+  (stream-for-each display-stream s))
+(define (display-line x) (newline) (display x))
+
+; (cons-stream a b) == (cons a (delay b))
+(define (stream-car stream) (caar stream))
+(define (stream-cdr stream) (force (cdr stream)))
+
+; (delay exp)  == (lambda () exp))
+(define (force delayed-object) (delayed-object))
+
+
+(define (stream-enumerate-interval low high)
+  (if (> low high)
+    the-empty-stream
+    (cons-stream
+      low
+      (stream-enumerate-interval (+ low 1) high))))
+
+
+(define (stream-filter pred stream)
+  (cond ((stream-null? stream) the-empty-stream)
+        ((pred (stream-car stream))
+         (cons-stream (stream-car stream)
+                      (stream-filter
+                        pred
+                        (stream-cdr stream))))
+        (else (stream-filter pred (stream-cdr stream)))))
+
+(define (memo-proc proc)
+  (let ((already-run? false)
+        (result false))
+    (lambda ()
+      (if (not already-run?)
+        (begin (set! result (proc))
+               (set! already-run? true)
+               result)
+        result))))
+
+; Ex 3.50
+(define (stream-map proc . argstreams)
+  (if (stream-null? (car argstreams)) ; 引数のstreamの内（とりあえず）先頭のものがnullかチェックしている。
+      the-empty-stream
+      (cons-stream
+       (apply proc (map stream-car argstreams)) ; argstreams内の各streamの先頭要素を取って,それに procをapply
+       (apply stream-map ; argstreamsの各streamのcdrを取って再帰
+              (cons proc (map strea-cdr argstreams))))))
+; apply : (apply procedure obj, ..., list) -> (precedure obj, ..., list)
+
+; Ex 3.51
+; (define x ...) した時に 0 だけ表示.
+; 1, ..., 5
+; 1, ..., 7 (memo化したら 6,7)
+; ?????????????
+
+; Ex 3.52
+
+; つらい
+
+
+
+; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ;
+; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ ;
+
+; 3.5.2 Infinite Streams
+
+; Even though we manipulating stream as conplete entities(or sequence), we compute only
+; as much of the streams as we need to access.
+
+; We can use streams to represent sequences that are infinitely long.
+
+; example) stream of (infinite) positive integers.
+(define (integers-starting-from n)
+  (cons-stream n (integers-starting-from (+ n 1))))
+(define integers (integers-starting-from 1))
+
+; (define s (integers-starting-from 5))
+; (stream-car s) -> 5
+; (stream-cdr s) -> (integers-starting-from 6)
+
+; This makes sense. This is an infinitely long stream, but in any given
+; time we can examine only a finite protion of it.
+
+; Using 'integers' we can define other infinite streams.
+(define (divisible? x y) (= (remainder x y) 0))
+(define no-sevens
+  (stream-filter (lambda (x) (not (divisible? x 7)))
+                 integers))
+; (stream-ref no-sevens 100) -> 117
+
+(define (fibgen a b) (cons-stream a (fibgen b (+ a b))))
+(define (fibs (fibgen 0 1)))
+
+
+(define (sieve stream)
+  (cons-stream
+    (stream-car stream)
+    (sieve (stream-filter
+             (lambda (x)
+               (not (divisible? x (stream-car stream))))
+             (stream-cdr stream)))))
+
+; Maybe this is not 'genuine' sieve of eratosthenese.
+; https://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf
+; http://d.hatena.ne.jp/kazu-yamamoto/20100624/1277348961
+(define (primes (sieve (integers-starting-from 2))))
+
+; Henderson diagram
+
+; unconser: cons a b -- unconser --> a, b 
+; a is used to construc a divisibility filter.
+
+
+
+; Defining streams implicitly
+
+
+; ex 3.53
+; 1, 2, 4, 8, 16
+
+; ex 3.54
+(define (mul-streams s1 s2) (stream-map * s1 s2))
+(define factorials
+  (cons-stream 1 (mul-streams (stream-cdr integers) factorials)))
+
+
+; ex 3.55
+
+
+; ex 3.56
+(define (partial-sums S)
+  (cons-stream (car s)
+               (cons-stream (+ (car S) (cadr S))
+                            (cdr S))))
+
+
+; ex 3.57
+; ex 3.58
+(define (expand num den radix)
+  (cons-stream
+    (quotient (* num radix) den)
+    (expand (remainder (* num radix) den) den radix)))
+
+
+
+
+; ex 3.59
+; ex 3.60
+; ex 3.61
+; ex 3.62
+
+(define (div-series s1 s2)
+  (if (= (stream-car s2) 0)
+    (error "THE DENOMINATOR SERIES MUST BEGINS WITH A NONZERO CONSTANT TERM")
+    (mul-series s1 (invert-unit-series s2))))
+

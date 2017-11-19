@@ -1,0 +1,252 @@
+#lang planet neil/sicp
+
+;; 3.3.3 テーブルの表現
+
+
+(define (lookup key table)
+  (let ((record (assoc key (cdr table))))
+    (if record
+        (cdr record)
+        #f)))
+
+(define (assoc key records)
+  (cond ((null? records) #f)
+        ((equal? key (caar records)) (car records))
+        (else (assoc key (cdr records)))))
+
+(define (insert! key value table)
+  (let ((record (assoc key (cdr table))))
+    (if record
+        (set-cdr! record value)
+        (set-cdr! table
+                  (cons (cons key value)
+                        (cdr table))))))
+
+(define (make-table)
+  (list '*table*))
+
+
+
+
+
+
+;;; 2-d table
+
+
+
+(define (lookup2 key-1 key-2 table)
+  (let ((subtable
+         (assoc key-1 (cdr table))))
+    (if subtable
+        (let ((record
+               (assoc key-2 (cdr subtable))))
+          (if record
+              (cdr record)
+              false))
+        false)))
+
+
+(define (insert2! key-1 key-2 value table)
+  (let ((subtable (assoc key-1 (cdr table))))
+    (if subtable
+        (let ((record (assoc key-2 (cdr subtable))))
+          (if record
+              (set-cdr! record value)
+              (set-cdr! subtable
+                        (cons (cons key-2 value)
+                              (cdr subtable)))))
+        (set-cdr! table
+                  (cons (list key-1
+                              (cons key-2 value))
+                        (cdr table)))))
+  'ok)
+
+
+;;; 局所テーブルの作成
+
+
+(define (make_table)
+  (let ((local-table (list '*table*)))
+    (define (lookup key-1 key-2)
+      (let ((subtable
+             (assoc key-1 (cdr local-table))))
+        (if subtable
+            (let ((record
+                   (assoc key-2 (cdr subtable))))
+              (if record (cdr record) #f))
+            #f)))
+    (define (insert! key-1 key-2 value)
+      (let ((subtable
+             (assoc key-1 (cdr local-table))))
+        (if subtable
+            (let ((record
+                   (assoc key-2 (cdr subtable))))
+              (if record
+                  (set-cdr! record value)
+                  (set-cdr! subtable
+                            (cons (cons key-2 value)
+                                  (cdr subtable)))))
+            (set-cdr! local-table
+                      (cons (list key-1 (cons key-2 value))
+                            (cdr local-table)))))
+      'ok)
+    (define (dispatch m)
+      (cond ((eq? m 'lookup) lookup)
+            ((eq? m 'insert!) insert!)
+            (else (error "Unknown operation: TABLE" m))))
+    dispatch))
+
+(define operation-table (make_table))
+(define get (operation-table 'lookup))
+(define put (operation-table 'insert!))
+
+
+
+
+;;;;;
+
+
+;(define (insertn! keys value table)
+;  (let ((record (assoc (car keys) (cdr table))))
+;    ;(display table)
+;    ;(newline)
+;    ;(display keys)
+;    ;(newline)
+;    ;(display record)
+;    ;(newline)
+;    ;(display dict)
+;    ;(newline)
+;    
+;    (if record
+;        (if (null? (cdr keys))
+;            (set-cdr! record value)
+;            (begin (set-cdr! record
+;                             (cons (cons (car record) (cdr record))
+;                                   nil))
+;                   (insertn! (cdr keys) value (cdr record))))
+;        (if (null? (cdr keys))
+;            (set-cdr! table
+;                      (cons (cons (car keys) value)
+;                            (cdr table)))
+;            (begin
+;              (set-cdr! table
+;                        (cons (cons (car keys) nil)
+;                              (cdr table)))
+;              (insertn! (cdr keys) value (cadr table)))))))
+
+
+
+;(define (lookupn keys table)
+;  (cond ((null? keys) #f)
+;        (else
+;         (let ((record
+;               (assoc (car keys) (cdr table))))
+;           ;(display record)
+;           (if record
+;               (cond ((and (null? (cdr keys))               
+;                           (not (pair? (cdr record))))       
+;                      (cdr record))
+;                     ((and (null? (cdr keys))                ;; there is no key
+;                           (pair? (cdr record)))             ;; pair
+;                      (lookupn keys record))
+;                     ((and (not (null? (cdr keys)))          
+;                           (not (pair? (cdr record))))       
+;                      #f)
+;                     (else
+;                      (lookupn (cdr keys) (cdr record))))
+;               #f)))))
+               
+
+  
+
+;(define (lookupn keys table)
+;  (cond ((null? (cdr keys))
+;         (let ((record
+;               (assoc (car keys) (cdr table))))
+;           (if record
+;               (cdr record)
+;               #f)))
+;        (else
+;         (let ((subtable
+;                (assoc (car keys) (cdr table))))
+;           (if subtable
+;               (lookup (car keys) (cdr keys) subtable)
+;               #f)))))
+
+
+;(define dict(make-table))
+;dict
+;(insertn! '(a) "A" dict)
+;dict
+;(insertn! '(b) "B" dict)
+;dict
+;(insertn! '(c) "C" dict)
+;dict
+
+;(insertn! '(a p p l e) "apple" dict)
+;dict
+
+;(insertn! '(x y) "XY" dict)
+;dict
+
+;(insertn! '(a b) "AB" dict)
+;dict
+
+;(insertn! '(a c) "AC" dict)
+;dict
+;(insertn! '(a b c) "ABC" dict)
+;dict
+
+;(insertn! '(x y z) "XYZ" dict)
+;dict
+
+;(display "lookupn")
+;(newline)
+; dict {a, b, apple, ab}
+
+;(lookupn '(a) dict) ; "A"
+;(lookupn '(b) dict) ; "B"
+;(lookupn '(a b) dict) ; "AB"
+;(lookupn '(a c) dict) ; "AC"
+;(lookupn '(a b c) dict) ; "ABC"
+;(lookupn '(x y z) dict) ; #f
+;(lookupn '(x) dict) ; #f
+;(lookupn '(y) dict) ; #f
+;(lookupn '(z) dict) ; #f
+
+;(insertn! '(a p p l e) "APPLE" dict)
+;dict
+;(lookupn '(a p p l e) dict) ; #t
+
+
+
+;;;;;
+
+;Exercise 3.27
+
+(define (fib n)
+  (cond ((= n 0) 0)
+        ((= n 1) 1)
+        (else (+ (fib (- n 1)) (fib (- n 2))))))
+
+(define (memoize f)
+  (let ((table (make-table)))
+    (lambda (x)
+      (let ((previously-computed-result
+             (lookup x table)))
+        (or previously-computed-result
+            (let ((result (f x)))
+              (insert! x result table)
+              result))))))
+
+(define memo-fib
+  (memoize
+   (lambda (n)
+     (cond ((= n 0) 0)
+           ((= n 1) 1)
+           (else (+ (memo-fib (- n 1))
+                    (memo-fib (- n 2))))))))
+
+
+
+         

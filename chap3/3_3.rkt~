@@ -147,7 +147,7 @@
          (else (set-front-ptr! queue (cdr (front-ptr queue)))
                queue)))
 
-;(define q (make-queue))
+(define q (make-queue))
 ;(insert-queue! q 'a)
 ;(insert-queue! q 'b)
 ;(delete-queue! q)
@@ -197,44 +197,13 @@
     dispatch))
             
 
-;(define qq (make-queue-dispatch))
-;(qq 'insert! '1)
-;(qq 'insert! '2)
-;(qq 'print)
-;(newline)
-;(qq 'delete!)
-;(qq 'print)
+(define qq (make-queue-dispatch))
+(qq 'insert! '1)
+(qq 'insert! '2)
+(qq 'print)
+(newline)
+(qq 'delete!)
+(qq 'print)
 
 ;; ex3.23
-
-(define (make-deque)
-  (cons '() '()))
-
-(define (make-item val)
-  (cons '() (cons val '())))
-
-(define (prev-ptr item)
-  (car item))
-(define (next-ptr item)
-  (cddr item))
-
-(define (value item)
-  (cadr item))
-
-;selecter
-(define (front-deque dq)
-  (car dq))
-(define (rear-deque dq)
-  (cdr dq))
-
-;pred
-(define (empty-deque? dq)
-  (null? (front-deque dq)))
-
-;mu
-;(define (front-insert-deque dq item)
-;  (set-car! item (front-deque dq))
-;  (set-car! dq (prev-ptr item)))
-
-
 

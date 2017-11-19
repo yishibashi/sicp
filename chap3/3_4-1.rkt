@@ -1,0 +1,232 @@
+#lang planet neil/sicp
+
+
+;;; Exercise 3.38
+
+;;;; a.
+
+;; X -> Y -> Marry
+; 100 -> 110 -> 90 -> 45
+; 100 -> 80  -> 90 -> 45
+
+; X -> Mary -> Y
+; 100 -> 110 -> 55 -> 35
+; 100 -> 80  -> 40 -> 50
+
+; Mary -> X -> Y
+; 100 -> 50 -> 60 -> 40
+; 100 -> 50 -> 30 -> 40
+
+;; =>  45, 35, 50, 40
+
+
+;;;; b.
+
+; 10通り
+; 65.0, 35.0, 70.0, 40.0, 45.0, 110, 80, 50.0, 55.0, 25.0, 90, 60.0, 30.0
+
+(define x 10)
+(parallel-execute
+ (lambda () (set! x (* x x)))
+ (lambda () (set! x (+ x 1))))
+
+
+(define s (make-serializer))
+(parallel-execute
+ (s (lambda () (set! x (* x x))))
+ (s (lambda () (set! x (+ x 1)))))
+
+
+(define (make-account balance)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+  (let ((protected (make-serializer)))
+    (define (dispatch m)
+      (cond ((eq? m 'withdraw) (protected withdraw))
+            ((eq? m 'deposit) (protected deposit))
+            ((eq? m 'balance) blance)
+            (else (error "Unknown requestL MAKE-ACCOUNT" m))))
+    dispatch))
+
+
+;;; Exercise 3.39
+
+
+(define x 10)
+
+(define s (make-serializer))
+
+(parallel-execute
+ (lambda () (set! x ((s (lambda () (* x x))))))
+ (s (lambda () (set! x (+ x 1)))))
+
+;; 100 ,101, 121
+
+
+
+;;; Exercise 3.40
+
+(define x 10)
+
+(parallel-execute (lambda () (set! x (* x x)))
+                  (lambda () (set! x (* x x x))))
+
+;; 100, 1000, 100^3, 1000^2, 10*1000, 10*100*100, 10*10*100
+;; 10^2 10^3 10^4 10^5 10^6 
+
+(define x 10)
+
+(define s (make-serializer))
+
+(parallel-execute (s (lambda () (set! x (* x x))))
+                  (s (lambda () (set! x (* x x x)))))
+
+;; 100^3, 1000^2
+
+
+;;; Exercise 3.41
+;; 手続きではない(副作用が無い)ので問題はなさそうだが,,,
+
+;;; Exercise 3.42
+; 問題無し
+
+; More precisely, serialization creates distinguished
+; sets of procedures such that only one execution of a procedure
+; in each serialized set is permitted to happen at a time.
+;; より正確には、シリアライゼーションは、各シリアライズされたセット内でプロシージャを1回だけ
+;; 実行することが許可されるような、識別された一連のプロシージャを作成します。
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(define (make-account-and-serializer balance)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+  (let ((balance-serializer (make-serializer)))
+    (define (dispatch m)
+      (cond ((eq? m 'withdraw) withdraw)
+            ((eq? m 'deposit) deposit)
+            ((eq? m 'balance) balance)
+            ((eq? m 'serializer) blance-serializer)
+            (else (error "Unknown requestL MAKE-ACCOUNT" m))))
+    dispatch))
+
+(define (deposit account amount)
+  (let ((s (acount 'serializer))
+        (d (account 'deposit)))
+    ((s d) amount)))
+(define (withdraw account amount)
+  (let ((s (acount 'serializer))
+        (w (account 'withdraw)))
+    ((s w) amount)))
+
+
+(define (make-account balance)
+  (define (withdraw amount)
+    (if (>= balance amount)
+        (begin (set! balance (- balance amount))
+               balance)
+        "Insufficient funds"))
+  (define (deposit amount)
+    (set! balance (+ balance amount))
+    balance)
+  (let ((protected (make-serializer)))
+    (define (dispatch m)
+      (cond ((eq? m 'withdraw) (protected withdraw))
+            ((eq? m 'deposit) (protected deposit))
+            ((eq? m 'balance) blance)
+            (else (error "Unknown requestL MAKE-ACCOUNT" m))))
+    dispatch))
+
+
+
+
+;;; Exercise 3.43
+
+;;; Exercise 3.44
+;問題無し
+;;; Exercise 3.45
+; loopになる
+
+
+;;;; IMPLEMENTATION
+
+(define (make-serializer)
+  (let ((mutex (make-mutex)))
+    (lambda (p)
+      (define (serialized-p . args)
+        (mutex 'acquire)
+        (let ((val (apply p args)))
+          (mutex 'relase)
+          val))
+      serialized-p)))
+
+(define (make-mutex)
+  (let ((cell (list #f)))
+    (define (the-mutex m)
+      (cond ((eq? m 'acquire)
+             (if (test-and-set! cell)
+                 (the-mutex 'acquire)))
+            ((eq? m 'release) (clear! cell))))
+    the-mutex))
+
+(define (clear! cell) (set-car! cell #f))
+
+(define (test-and-set! cell)
+  (if (car cell) #t (begin (set-car! cell #t) #f)))
+
+;;; Exercise 3.47
+; mutex
+
+(define (make-semaphore n)
+  (let ((val  (list n))
+        (mutex (make-mutex)))
+    (define (the-semaphore m)
+      (cond ((eq? 'acquire)
+             (if (>= val 0)
+                 (begin (mutex 'acquire)
+                        (set-car! val (- (car val) 1))
+                        (mutex 'lease))))
+            ((eq? 'release)
+             (if (eq? (car val) n)
+                 (error "ERROR")
+                 (begin (mutex 'acquire)
+                        (set-car! val (+ (car val) 1))
+                        (mutex 'release))))))
+    the-semaphore))
+
+
+; atomic 'test-and-set!' operation
+
+
+
+
+(define (make-semaphore n)
+  (let ((cell (list #f))
+        (val  (list n)))
+    (define (the-semaphore m)
+      (cond ((eq? m 'acquire)
+             (if (test-and-set! cell)
+                 (the-semaphore 'acquire)
+                 (if (<= 0 (car val))
+                     (begin (set-car! val (- (car val) 1))
+                            (the-semaphore 'release)))))
+            ((eq? m 'release)
+             (if (test-and-set! cell)
+                 (the-semaphore 'acquire)
+                 (begin (set-car! val (+ (car val) 1))
+                        (clear! cell)
+                        (the-semaphore 'release))))))
+      the-semaphore))

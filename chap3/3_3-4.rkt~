@@ -161,18 +161,14 @@
 
 ;;; Ex.3.30
 
+;; from g-hyoga
 
-;; 
+;(define (ripple-carry-adder as bs ss c-out)
+;	(cond ((null? as)) 'ok)
+;	(else (let ((c-in (make-wire)))
+;					(full-adder (car as) (car bs) c-in (car ss) c-out))
+;				(ripple-carry-adder (cdr as) (cdr bs) (cdr ss) c-in)))
 
-(define (r-c-addr as bs ss c)
-  (cond ((null? as) (display "done"))
-        (else (let ((a (car as))
-                    (b (car bs))
-                    (s (car ss))
-                    (c-out  c)
-                    (c-in (make-wire)))
-                (full-adder a b c-in s c-out)
-                (r-c-addr (cdr as) (cdr bs) (cdr ss) c-in)))))
   
 ;;;;;;;;;;;;;;;
 
@@ -267,8 +263,8 @@
 
 (define (empty-agenda? agenda)
   (null? (segments agenda)))
-
 ;;
+
 
 (define (add-to-agenda! time action agenda)
   (define (belongs-before? segments)
@@ -314,30 +310,27 @@
         (front-queue (segment-queue first-seg)))))
 
 
-;;;;;;;; ex.
 
+(define the-agenda (make-agenda))
 (define inverter-delay 2)
 (define and-gate-delay 3)
 (define or-gate-delay 5)
-(define the-agenda (make-agenda))
+(define input-1 (make-wire))
+(define input-2 (make-wire))
+(define sum (make-wire))
+(define carry (make-wire))
 
-;(define input-1 (make-wire))
-;(define input-2 (make-wire))
-;(define sum (make-wire))
-;(define carry (make-wire))
+(probe 'sum sum) ; sum 0 New-value = 0
+(probe 'carry carry) ; carry 0 New-value = 0
+(half-adder input-1 input-2 sum carry) ;ok
 
-;(probe 'sum sum) ; sum 0 New-value = 0
-;(probe 'carry carry) ; carry 0 New-value = 0
-;(half-adder input-1 input-2 sum carry) ;ok
+(set-signal! input-1 1) ; done
+(propagate) ; sum 8 New-value = 1
+
+(set-signal! input-2 1) ; done
+(propagate) ;
 
 
-;(set-signal! input-1 1) ; done
-;(propagate) ; sum 8 New-value = 1
-;(set-signal! input-2 1) ; done
-;(display "---")
-;(propagate) ;
-
-;;;;;;;;
 
 ;; Ex. 3.31
 
@@ -346,23 +339,4 @@
 ;gateに繋がったら信号は直ちに代わるのが自然。
 ;
 
-;; Ex. 3.32
-
-(display "------------")
-
-
-(define a (make-wire))
-(define b (make-wire))
-(define o (make-wire))
-(and-gate a b o)
-(probe 'o o)
-(propagate)
-
-(set-signal! a 0)
-(set-signal! b 1)
-(propagate)
-
-(set-signal! a 1)
-(set-signal! b 0)
-(propagate)  ; (X)
 
