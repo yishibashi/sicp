@@ -1,0 +1,13 @@
+(define (div-series s1 s2)
+  (cond ((= (stream-car s2) 0)
+	 (error "ZERO DIVISION ERROR"))
+	((= (stream-car s2) 1)
+	 (mul-series s1 (invert-unit-series s2)))
+	(else
+	  (let ((inv (/ 1 (car s2)))
+		(vni (car s2)))
+	    (scale-stream vni
+		(mul-series s1 
+			    (invert-unit-series (scale-stream inv s2))))))))
+
+
