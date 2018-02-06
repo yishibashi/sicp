@@ -486,6 +486,22 @@
                                 initial-value)
                              dt)))))
 
+; ex 3.79
+
+; ex 3.80
+
+(define (RLC R L C dt)
+  (define (rlc vC0 iL0)
+    (define dvC (scale-stream (/ -1 C) il))
+    (define diL (add-stream (scale-stream (/ 1 L) vC)
+                            (scale-stream (* -1 (/ R L)) iL)))
+    (define vC (integral (delay dvC) vC0 dt))
+    (define iL (integral (delay diL) iL0 dt))
+    (stream-map (lambda (v i) (cons v i) vC iL))
+  rlc)
+
+
+
 
 
 
