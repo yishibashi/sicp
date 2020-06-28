@@ -1,4 +1,4 @@
-; Gauche Scheme
+#lang planet neil/sicp
 
 (define true #t)
 (define false #f)
@@ -380,6 +380,9 @@
         (cadr val)
         (error "Unknown operation -- ASSEMBLE" symbol))))
 
+;;;;;;;;;;;;;;;;;;;
+;;; gcd-machine ;;;
+;;;;;;;;;;;;;;;;;;;
 
 (define gcd-machine
   (make-machine
@@ -400,5 +403,5 @@
 
 (start gcd-machine) ;=> done
 (get-register-contents gcd-machine 'a) ;=> 2
-(print (get-register-contents gcd-machine 'a)) ;=> 2)
+(get-register-contents gcd-machine 'a) ;=> 2)
 
