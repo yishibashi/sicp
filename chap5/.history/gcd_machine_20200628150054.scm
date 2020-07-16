@@ -1,7 +1,3 @@
-;;;;;;;;;;;;;;;;;;;
-;;; gcd-machine ;;;
-;;;;;;;;;;;;;;;;;;;
-
 (define gcd-machine
   (make-machine
    '(a b t)

@@ -1,7 +1,3 @@
-;;;;;;;;;;;;;;;;;;;
-;;; gcd-machine ;;;
-;;;;;;;;;;;;;;;;;;;
-
 (define gcd-machine
   (make-machine
    '(a b t)
@@ -21,4 +17,3 @@
 
 (start gcd-machine) ;=> done
 (get-register-contents gcd-machine 'a) ;=> 2
-(get-register-contents gcd-machine 'a) ;=> 2)
